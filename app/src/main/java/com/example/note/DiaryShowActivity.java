@@ -1,5 +1,7 @@
 package com.example.note;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -47,6 +50,7 @@ public class DiaryShowActivity  extends AppCompatActivity implements View.OnClic
     private String pic;
     private String address;
     private String weather;
+    private int errorImageId;
 
     private IWXAPI api;
     private Tencent mTencent;
@@ -79,7 +83,7 @@ public class DiaryShowActivity  extends AppCompatActivity implements View.OnClic
         imageView = findViewById(R.id.diary_show_image);
         Glide.with(DiaryShowActivity.this)
                 .load(pic)
-                .error(R.drawable.luncher_bg2)
+                .error(errorImageId)
                 .dontAnimate()
                 .into(imageView);
         titleText = findViewById(R.id.dairy_show_title);
@@ -104,6 +108,7 @@ public class DiaryShowActivity  extends AppCompatActivity implements View.OnClic
         pic= intent.getStringExtra("pic");
         address= intent.getStringExtra("address");
         weather= intent.getStringExtra("weather");
+        errorImageId =  intent.getIntExtra("errorImageId",R.drawable.meiwenbg3);
     }
 
     @Override
@@ -159,7 +164,26 @@ public class DiaryShowActivity  extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.dairy_show_float:{
-                share(title);
+                ObjectAnimator rotation=ObjectAnimator.ofFloat(floatingActionButton,"rotation",360,0);
+                rotation.setDuration(1500);
+                rotation.setInterpolator(new AnticipateOvershootInterpolator());
+                rotation.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                    }
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        share(title);
+                    }
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                    }
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+                rotation.start();
                 break;
             }
             default:

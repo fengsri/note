@@ -1,5 +1,7 @@
 package com.example.note;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -24,6 +26,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.AnticipateOvershootInterpolator;
+import android.view.animation.BounceInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -31,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.note.bean.Article;
 import com.example.note.bean.Diary;
 import com.example.note.bean.Note;
 import com.example.note.bean.User;
@@ -86,13 +91,10 @@ public class MainActivity extends AppCompatActivity
     private FloatingActionButton fab;
     private CircleImageView headerPic;
 
-
     private IWXAPI api;
     private Tencent mTencent;
     private BaseUiListener mIUiListener = new BaseUiListener();
-
     private com.example.note.bean.User user;
-
     /**
      * activity的创建
      * @param savedInstanceState
@@ -124,27 +126,82 @@ public class MainActivity extends AppCompatActivity
      * 初始化加载数据
      */
     private void initData() {
-//        DiaryDao.saveBeanDiaryToYun(user.getObjectId(),
-//                "2019/05/09","这是日记标题",
-//                "这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容",
-//                "icon",
-//                "pic",
-//                "成都市西华大学",
-//                "晴天",MainActivity.this);
-//        NoteDao.saveBeanNoteToYun(user.getObjectId(),
-//                "2019/05/09","这是便签标题",
-//                "这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容",
-//                "icon",
-//                "pic",
-//                "成都市西华大学",
-//                "晴天",
-//                MainActivity.this);
+       /* DiaryDao.deleteDiaryFromLitePal(UserUtil.user.getObjectId());
+        NoteDao.deleteNoteFromLitePal(UserUtil.user.getObjectId());
+        ArticleDao.deleteDiaryFromLitePal();
+        for(int i=1;i<6;i++){
+            DiaryDao.saveBeanDiaryToYun(user.getObjectId(),
+                    "2019/05/"+i,"这是日记标题"+i,
+                    "这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容",
+                    "icon",
+                    "pic",
+                    "成都市西华大学",
+                    "晴天",MainActivity.this);
+        }
+
+        for(int i=1;i<6;i++){
+            NoteDao.saveBeanNoteToYun(user.getObjectId(),
+                    "2019/05/09","这是便签标题"+i,
+                    "这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容",
+                    "icon",
+                    "pic",
+                    "成都市西华大学",
+                    "晴天",
+                    MainActivity.this);
+        }
+
+        for(int i=1;i<20;i++){
+            ArticleDao.saveBeanArticleToYun("2019/05/"+i,"这娱乐"+i,
+                    "这是娱乐的内容这是娱乐的内容这是娱乐的内容这是娱乐的内容这是娱乐的内容这是娱乐的内容这是娱乐的内容这是娱乐的内容这是娱乐的内容",
+                    "icon",
+                    "pic1",
+                    "pic2",
+                    "pic3",
+                    "1",MainActivity.this);
+        }
+        for(int i=1;i<20;i++){
+            ArticleDao.saveBeanArticleToYun("2019/05/"+i,"这军事"+i,
+                    "这是军事内容这是军事内容这是军事内容这是军事内容这是军事内容这是军事内容这是军事内容这是军事内容这是军事内容这是军事内容这是军事内容这是军事内容",
+                    "icon",
+                    "pic1",
+                    "pic2",
+                    "pic3",
+                    "2",MainActivity.this);
+        }
+
+        for(int i=1;i<20;i++){
+            ArticleDao.saveBeanArticleToYun("2019/05/"+i,"这体育"+i,
+                    "这是体育的内容这是体育的内容这是体育的内容这是体育的内容这是体育的内容这是体育的内容这是体育的内容这是体育的内容这是体育的内容这是体育的内容这是体育的内容",
+                    "icon",
+                    "pic1",
+                    "pic2",
+                    "pic3",
+                    "3",MainActivity.this);
+        }
+
+        for(int i=1;i<20;i++){
+            ArticleDao.saveBeanArticleToYun("2019/05/"+i,"这情感"+i,
+                    "这是情感的内容这是情感的内容这是情感的内容这是情感的内容这是情感的内容这是情感的内容这是情感的内容这是情感的内容这是情感的内容这是情感的内容这是情感的内容这是情感的内容",
+                    "icon",
+                    "pic1",
+                    "pic2",
+                    "pic3",
+                    "4",MainActivity.this);
+        }
+
+        for(int i=1;i<20;i++){
+            ArticleDao.saveBeanArticleToYun("2019/05"+i,"这社会"+i,
+                    "这是社会的内容这是社会的内容这是社会的内容这是社会的内容这是社会的内容这是社会的内容这是社会的内容这是社会的内容这是社会的内容这是社会的内容这是社会的内容这是社会的内容",
+                    "icon",
+                    "pic1",
+                    "pic2",
+                    "pic3",
+                    "5",MainActivity.this);
+        }*/
+
         DiaryDao.refreshNewDiary(user.getObjectId());
         NoteDao.refreshNewNote(user.getObjectId());
         ArticleDao.refreshNewArticle();
-
-     /*   List<com.example.note.domain.Note> litePalNote = NoteDao.getNoteFromLitePal(user.getObjectId());
-        Toast.makeText(MainActivity.this,litePalNote.size()+"个note",Toast.LENGTH_SHORT).show();*/
    }
 
 
@@ -157,14 +214,7 @@ public class MainActivity extends AppCompatActivity
         titleText = findViewById(R.id.title_text);
         app_bar_main_view = findViewById(R.id.app_bar_main);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
+        fab.setOnClickListener(this);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -298,13 +348,15 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this,ActivitySetHeaderPic.class);
             startActivity(intent);
         } else if (id == R.id.nav_gallery) {
-
+            Intent intent = new Intent(MainActivity.this,ActivityUserMessage.class);
+            startActivity(intent);
         } else if (id == R.id.nav_slideshow) {
-
+            Intent intent = new Intent(MainActivity.this,ActivityUserDiary.class);
+            startActivity(intent);
         } else if (id == R.id.nav_manage) {
 
         } else if (id == R.id.nav_share) {
-
+            shareAplcation();
         } else if (id == R.id.nav_send) {
             BmobUser.logOut();
             // DataSupport.deleteAll(User.class,"userId=?",user.getObjectId());
@@ -340,6 +392,29 @@ public class MainActivity extends AppCompatActivity
                 setBackgroud(3);
                 replace(new ArticleFragment());
                 titleText.setText(R.string.bottom_text3);
+                break;
+            }
+            case R.id.fab:{
+                ObjectAnimator rotation=ObjectAnimator.ofFloat(fab,"rotation",360,0);
+                rotation.setDuration(1500);
+                rotation.setInterpolator(new BounceInterpolator());
+                rotation.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                    }
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                       // share(title);
+                    }
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                    }
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+                rotation.start();
                 break;
             }
             default:
@@ -432,6 +507,32 @@ public class MainActivity extends AppCompatActivity
         }
         api.sendReq(req);
     }
+
+
+    public void shareAplcation(){
+        final String[] items = new String[] { "微信朋友圈","微信群聊","QQ群聊","QQ空间"};
+        // 创建对话框构建器
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
+        // 设置参数
+        builder.setIcon(R.drawable.fenxiang).setTitle("推荐你的朋友使用Note")
+                .setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if(which==0){
+                            shareText("请到www.note.com下载使用该软件",0);
+                        }else if(which==1){
+                            shareText("请到www.note.com下载使用该软件",1);
+                        }else if(which==2){
+                            shareToQQ("请到www.note.com下载使用该软件");
+                        }else if(which==3){
+                           shareToQZone("请到www.note.com下载使用该软件");
+                        }
+                    }
+                });
+        builder.create().show();
+    }
+
+
 
     /**
      * qq分享

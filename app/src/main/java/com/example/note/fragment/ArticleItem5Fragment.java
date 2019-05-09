@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.example.note.MainActivity;
 import com.example.note.R;
 import com.example.note.adapter.ArticleRecyclerviewAdapter;
+import com.example.note.dao.ArticleDao;
 import com.example.note.domain.Article;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class ArticleItem5Fragment extends Fragment implements View.OnClickListen
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //获取本地数据库的数据
-        // articleList = ArticleDao.getByTypeArticleFromLitePal("5");
+        initData();
     }
 
 
@@ -50,27 +51,7 @@ public class ArticleItem5Fragment extends Fragment implements View.OnClickListen
     }
 
     private void initData() {
-        for(int i=0;i<20;i++){
-            Article article =new Article(
-                    "2019/05/09",
-                    "这是文章的标题",
-                    "这是文章的内容" +
-                            "这是文章的内容" +
-                            "这是文章的内容" +
-                            "这是文章的内容" +
-                            "这是文章的内容" +
-                            "这是文章的内容" +
-                            "这是文章的内容" +
-                            "这是文章的内容" +
-                            "这是文章的内容" +
-                            "这是文章的内容" +
-                            "","icon",
-                    "pic1",
-                    "pic2",
-                    "pic3",
-                    "1");
-            articleList.add(article);
-        }
+        articleList = ArticleDao.getByTypeArticleFromLitePal("5");
     }
 
     public void init(View view){

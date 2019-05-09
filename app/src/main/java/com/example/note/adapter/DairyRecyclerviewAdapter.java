@@ -18,6 +18,7 @@ import com.example.note.MainActivity;
 import com.example.note.R;
 import com.example.note.domain.Article;
 import com.example.note.domain.Diary;
+import com.example.note.util.ImageUtil;
 
 import java.util.List;
 
@@ -48,11 +49,14 @@ public class DairyRecyclerviewAdapter extends RecyclerView.Adapter<DairyRecycler
         holder.weather.setText(diary2.getWeather());
         holder.address.setText(diary2.getAddress());
         holder.date.setText(diary2.getDate());
+        final int errorImageId = ImageUtil.getRandImageId();
         Glide.with(context)
                 .load(diary2.getPic())
-                .error(R.drawable.luncher_bg3)
+                .error(errorImageId)
+                .placeholder(errorImageId)
                 .dontAnimate()
                 .into(holder.imageView);
+
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,6 +67,7 @@ public class DairyRecyclerviewAdapter extends RecyclerView.Adapter<DairyRecycler
                 intent.putExtra("pic",diary2.getPic());
                 intent.putExtra("address",diary2.getAddress());
                 intent.putExtra("weather",diary2.getWeather());
+                intent.putExtra("errorImageId",errorImageId);
                 context.startActivity(intent);
             }
         });

@@ -14,19 +14,19 @@
             android:layout_height="50dp">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="27dp"
+                android:layout_height="27dp"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/denglu" />
+                android:layout_marginTop="13dp"
+                android:src="@drawable/riji" />
 
             <TextView
-                android:id="@+id/self_name"
+                android:id="@+id/self_diary_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
-                android:text="流浪地球"
+                android:text="记录日记30天"
                 android:textColor="@color/textcolor"
                 android:textSize="17sp" />
         </LinearLayout>
@@ -51,15 +51,15 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/youxiang" />
+                android:src="@drawable/bianqian" />
 
             <TextView
-                android:id="@+id/self_email"
+                android:id="@+id/self_note_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="20dp"
-                android:text="邮箱"
+                android:text="便签总共30个"
                 android:textColor="@color/textcolor"
                 android:textSize="17sp" />
 

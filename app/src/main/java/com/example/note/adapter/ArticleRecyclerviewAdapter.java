@@ -16,6 +16,7 @@ import com.example.note.ArticleShowActivity;
 import com.example.note.MainActivity;
 import com.example.note.R;
 import com.example.note.domain.Article;
+import com.example.note.util.ImageUtil;
 
 import java.util.List;
 
@@ -42,7 +43,16 @@ public class ArticleRecyclerviewAdapter extends RecyclerView.Adapter<ArticleRecy
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Article article2 = articleList.get(position);
-
+        holder.titleView.setText(article2.getTitle());
+        holder.dataText.setText(article2.getDate());
+        holder.countText.setText((int)(Math.random()*10)+"万人浏览");
+        int error = ImageUtil.getRandImageId();
+        Glide.with(context)
+                .load(article2.getIcon())
+                .error(error)
+                .placeholder(error)
+                .dontAnimate()
+                .into(holder.imageView);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,16 +121,17 @@ public class ArticleRecyclerviewAdapter extends RecyclerView.Adapter<ArticleRecy
 
     class ViewHolder extends RecyclerView.ViewHolder{
         ImageView imageView;
-        TextView textView;
-
+        TextView titleView;
+        TextView dataText;
+        TextView countText;
         ImageView shareImage;
         TextView shareText;
-
         public ViewHolder(View itemView) {
             super(itemView);
             imageView=itemView.findViewById(R.id.article_item_image);
-            textView=itemView.findViewById(R.id.article_item_title);
-
+            titleView=itemView.findViewById(R.id.article_item_title);
+            dataText=itemView.findViewById(R.id.article_item_date);
+            countText = itemView.findViewById(R.id.practice_item_count);
             shareImage=itemView.findViewById(R.id.practice_item_fximage);
             shareText=itemView.findViewById(R.id.practice_item_sharetext);
         }

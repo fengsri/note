@@ -64,7 +64,7 @@ public class ActivitySetHeaderPic extends AppCompatActivity {
     }
 
     public void setHeaderPic(){
-        final String[] items = new String[] { "照相机","相册"};
+        final String[] items = new String[] { "相册","照相机"};
         // 创建对话框构建器
         AlertDialog.Builder builder = new AlertDialog.Builder(ActivitySetHeaderPic.this);
         // 设置参数
