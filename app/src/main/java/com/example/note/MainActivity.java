@@ -63,6 +63,7 @@ import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static cn.bmob.newim.util.IMLogger.init;
 
@@ -106,8 +107,8 @@ public class MainActivity extends AppCompatActivity
         initView();
 
         //第一：默认初始化微信
-        api = WXAPIFactory.createWXAPI(this, "wxf371098a435d7f2b");
-        api.registerApp("wxf371098a435d7f2b");
+        api = WXAPIFactory.createWXAPI(this, "wx31255991882d79b5");
+        api.registerApp("wx31255991882d79b5");
         //qq的默认
         mTencent = Tencent.createInstance("101572837", this.getApplicationContext());
     }
@@ -174,6 +175,20 @@ public class MainActivity extends AppCompatActivity
         setBackgroud(1);
         replace(new DiaryFragment());
         titleText.setText(R.string.bottom_text1);
+
+
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        CircleImageView headerPic = headerLayout.findViewById(R.id.home_header_pic);
+
+        Glide.with(MainActivity.this)
+                .load(user.getUserHeaderPic())
+                .error(R.drawable.touxiang)
+                .dontAnimate()
+                .into(headerPic);
+        TextView username = headerLayout.findViewById(R.id.home_username);
+        TextView email = headerLayout.findViewById(R.id.home_email);
+        username.setText(user.getUsername());
+        email.setText(user.getEmail());
     }
 
 
