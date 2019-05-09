@@ -12,8 +12,8 @@ public class Article extends BmobObject implements Serializable {
     private String pic1;
     private String pic2;
     private String pic3;
-    private String address;
-    private String weather;
+    private String type;
+
 
     public String getDate() {
         return date;
@@ -71,19 +71,11 @@ public class Article extends BmobObject implements Serializable {
         this.pic3 = pic3;
     }
 
-    public String getAddress() {
-        return address;
+    public String getType() {
+        return type;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getWeather() {
-        return weather;
-    }
-
-    public void setWeather(String weather) {
-        this.weather = weather;
+    public void setType(String type) {
+        this.type = type;
     }
 }

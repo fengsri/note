@@ -23,10 +23,12 @@ public class ArticleItem5Fragment extends Fragment implements View.OnClickListen
     private Context context;
     private RecyclerView recyclerView;
     private List<Article> articleList = new ArrayList<>();
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //获取本地数据库的数据
+        // articleList = ArticleDao.getByTypeArticleFromLitePal("5");
     }
 
 
@@ -42,7 +44,24 @@ public class ArticleItem5Fragment extends Fragment implements View.OnClickListen
 
     private void initData() {
         for(int i=0;i<20;i++){
-            Article article = new Article();
+            Article article =new Article(
+                    "2019/05/09",
+                    "这是文章的标题",
+                    "这是文章的内容" +
+                            "这是文章的内容" +
+                            "这是文章的内容" +
+                            "这是文章的内容" +
+                            "这是文章的内容" +
+                            "这是文章的内容" +
+                            "这是文章的内容" +
+                            "这是文章的内容" +
+                            "这是文章的内容" +
+                            "这是文章的内容" +
+                            "","icon",
+                    "pic1",
+                    "pic2",
+                    "pic3",
+                    "1");
             articleList.add(article);
         }
     }

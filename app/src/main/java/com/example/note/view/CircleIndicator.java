@@ -22,9 +22,11 @@ public class CircleIndicator extends View {
     private int height;
     private float current;
 
-    private int count;
+    private int count=5;
     private Paint paint;
     private Paint selectedPaint;
+
+    int tag=0;
 
     public CircleIndicator(Context context) {
         this(context, null);
@@ -39,11 +41,11 @@ public class CircleIndicator extends View {
         //默认圆画笔
         paint = new Paint();
         paint.setAntiAlias(true);
-        paint.setColor(Color.parseColor("#bbafafaf"));
+        paint.setColor(Color.parseColor("#74AFAFAF"));
         //当前指示圆画笔
         selectedPaint = new Paint();
         selectedPaint.setAntiAlias(true);
-        selectedPaint.setColor(Color.parseColor("#b5494949"));
+        selectedPaint.setColor(Color.parseColor("#99494949"));
     }
 
     @Override
@@ -58,12 +60,19 @@ public class CircleIndicator extends View {
         super.onDraw(canvas);
         //这个距离如下图所示
         int distance = width / (count + 1);
+
         //灰色圆
         for (int i = 0; i < count; i++) {
             canvas.drawCircle(distance * (i + 1), height / 2, height / 4, paint);
         }
         //红色圆
-        canvas.drawCircle(current, height / 2, height / 4, selectedPaint);
+        if(tag==0){
+            current = distance;
+            tag++;
+            canvas.drawCircle(current, height / 2, height / 4, selectedPaint);
+        }else{
+            canvas.drawCircle(current, height / 2, height / 4, selectedPaint);
+        }
     }
 
     //和viewpager联动
@@ -72,14 +81,18 @@ public class CircleIndicator extends View {
             return;
         }
         //确定要画几个圆
-        count =viewPager.getAdapter().getCount() ;
+        //count =viewPager.getAdapter().getCount() ;
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                setCircleSize(position, positionOffset, positionOffsetPixels);
+               // setCircleSize(position, positionOffset, positionOffsetPixels);
             }
             @Override
             public void onPageSelected(int position) {
+                if(position>4){
+                    position = position%5;
+                }
+                setCircleSize(position);
             }
             @Override
             public void onPageScrollStateChanged(int state) {
@@ -87,6 +100,19 @@ public class CircleIndicator extends View {
         });
     }
 
+    //设置红色圆移动的距离
+    private void setCircleSize(int position) {
+        int distance = width / (count + 1);
+        //current = (position + 1) * distance;
+        //设置红色圆的大小，
+        //selectedRadius = radius ;
+
+        current = (position+1)*distance;
+        selectedRadius = height / 2;
+        invalidate();
+    }
+
+   /*
     //设置红色圆移动的距离
     private void setCircleSize(int position, float positionOffset, int positionOffsetPixels) {
         Log.d("xxxxx", position + "/" + positionOffset + "/" + positionOffsetPixels);
@@ -104,5 +130,5 @@ public class CircleIndicator extends View {
 //        }
         selectedRadius = height / 2;
         invalidate();
-    }
+    }*/
 }

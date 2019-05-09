@@ -5,6 +5,7 @@ import java.io.Serializable;
 import cn.bmob.v3.BmobObject;
 
 public class Note extends BmobObject implements Serializable {
+    private String userId;
     private String date;
     private String title;
     private String text;
@@ -12,6 +13,14 @@ public class Note extends BmobObject implements Serializable {
     private String icon;
     private String address;
     private String weather;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getIcon() {
         return icon;

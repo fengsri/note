@@ -6,6 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -19,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.note.GoodActivity;
 import com.example.note.MainActivity;
 import com.example.note.R;
@@ -60,6 +64,18 @@ public class ArticleFragment extends Fragment implements View.OnClickListener{
     private float distance=0; //当前的距离
     private float screenWidth=0;//当前的屏幕宽度
 
+
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what==0) {
+                int pager = headerViewPager.getCurrentItem();
+                headerViewPager.setCurrentItem(pager+1);
+            }
+        }
+    };
+    private boolean isLoop = true;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -119,8 +135,6 @@ public class ArticleFragment extends Fragment implements View.OnClickListener{
             public void onPageScrollStateChanged(int state) {
             }
         });
-
-
         scrollView.setOnScrollListener(new RecyclerScrollView.OnScrollListener() {
             @Override
             public void onScroll(int scrollY) {
@@ -133,27 +147,23 @@ public class ArticleFragment extends Fragment implements View.OnClickListener{
                 }
             }
         });
-
+        initAuto();
     }
 
     public void initData(){
         final int imageId[]={R.drawable.luncher_bg1,R.drawable.luncher_bg2,R.drawable.luncher_bg3,R.drawable.luncher_bg5,R.drawable.luncher_bg2};
-        for(int i=0;i<5;i++) {//循环5次加载轮播图，并设置轮播图的点击事件
+        for(int i=0;i<150;i++) {//循环5次加载轮播图，并设置轮播图的点击事件
             final ImageView imageView=new ImageView(context);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-//            Glide.with(context)
-//                    .load(imageId[i])
-//                    .error(R.drawable.practice_header22)
-//                    .dontAnimate()
-//                    .into(imageView);
-            imageView.setImageResource(imageId[i]);
+            imageView.setImageResource(imageId[(int)(Math.random()*(imageId.length))]);
             imageView.setTag(i);
             imageViewListHeader.add(imageView);
+            final int finalI = i;
             imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent=new Intent(context, GoodActivity.class);
-                    intent.putExtra("tag",(int)imageView.getTag());
+                    intent.putExtra("tag", finalI);
                     context.startActivity(intent);
                 }
             });
@@ -240,6 +250,22 @@ public class ArticleFragment extends Fragment implements View.OnClickListener{
             default:
                 break;
         }
+    }
+
+
+    //自动滑动
+    private void initAuto(){
+        // 自动切换页面功能
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                while (isLoop) {
+                    SystemClock.sleep(2000);
+                    handler.sendEmptyMessage(0);
+                }
+            }
+        }).start();
     }
 
 }

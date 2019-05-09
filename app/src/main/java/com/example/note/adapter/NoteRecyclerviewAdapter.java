@@ -1,13 +1,16 @@
 package com.example.note.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.note.NoteShowActivity;
 import com.example.note.R;
 import com.example.note.domain.Diary;
 import com.example.note.domain.Note;
@@ -29,7 +32,7 @@ public class NoteRecyclerviewAdapter extends RecyclerView.Adapter<NoteRecyclervi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context=parent.getContext();
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_note_recyclerview_item,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_note_recyclerview_items,parent,false);
         ViewHolder holder=new ViewHolder(view);
         return holder;
     }
@@ -37,19 +40,18 @@ public class NoteRecyclerviewAdapter extends RecyclerView.Adapter<NoteRecyclervi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Note note = noteList.get(position);
-//        Glide.with(context)
-//                    .load(article.getIcon())
-//                    .error(R.drawable.luncher_bg2)
-//                    .dontAnimate()
-//                    .into(holder.imageView);
 
-//        holder.imageView.setImageResource(R.drawable.luncher_bg5);
-//        holder.textView.setText(article.getTitle());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        note.setTitle("这是便签标题");
+        note.setText("这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容");
+        note.setDate("2019/05/09");
+        holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent=new Intent(context, PracticeActivity.class);
-//                context.startActivity(intent);
+                Intent intent=new Intent(context, NoteShowActivity.class);
+                intent.putExtra("title",note.getTitle());
+                intent.putExtra("text",note.getText());
+                intent.putExtra("date",note.getDate());
+                context.startActivity(intent);
             }
         });
 
@@ -61,13 +63,16 @@ public class NoteRecyclerviewAdapter extends RecyclerView.Adapter<NoteRecyclervi
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        ImageView imageView;
+        RelativeLayout item;
         TextView title;
-
+        TextView date;
+        TextView smalltext;
         public ViewHolder(View itemView) {
             super(itemView);
-            imageView=itemView.findViewById(R.id.recyclerview_note_item_image);
-            title=itemView.findViewById(R.id.recyclerview_note_item_title);
+            item = itemView.findViewById(R.id.note_item);
+            title=itemView.findViewById(R.id.note_item_title);
+            date=itemView.findViewById(R.id.note_item_date);
+            smalltext=itemView.findViewById(R.id.note_item_smalltext);
         }
     }
 

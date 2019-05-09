@@ -7,6 +7,8 @@ import java.io.Serializable;
 import cn.bmob.v3.BmobObject;
 
 public class Note extends DataSupport {
+    private String objectId;
+    private String userId;
     private String date;
     private String title;
     private String text;
@@ -14,6 +16,37 @@ public class Note extends DataSupport {
     private String icon;
     private String address;
     private String weather;
+
+    public Note() {
+    }
+
+    public Note(String objectId, String userId, String date, String title, String text, String pic, String icon, String address, String weather) {
+        this.objectId = objectId;
+        this.userId = userId;
+        this.date = date;
+        this.title = title;
+        this.text = text;
+        this.pic = pic;
+        this.icon = icon;
+        this.address = address;
+        this.weather = weather;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getIcon() {
         return icon;

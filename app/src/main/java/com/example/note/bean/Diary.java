@@ -5,6 +5,7 @@ import java.io.Serializable;
 import cn.bmob.v3.BmobObject;
 
 public class Diary extends BmobObject implements Serializable {
+    private String userId;
     private String date;
     private String title;
     private String text;
@@ -15,6 +16,14 @@ public class Diary extends BmobObject implements Serializable {
 
     public String getIcon() {
         return icon;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public void setIcon(String icon) {

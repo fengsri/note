@@ -30,8 +30,8 @@
         android:layout_toRightOf="@+id/practice_item_cardview"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="20dp"
-        android:textSize="18dp"
-        android:text="成都市东进该表程度前年格局。"/>
+        android:textSize="15dp"
+        android:text="成都市东进该表程度前年格局"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,12 +44,12 @@
     <ImageView
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:src="@drawable/share"
+        android:src="@drawable/fenxiang"
         android:id="@+id/practice_item_fximage"
         android:layout_below="@+id/article_item_title"
         android:layout_toRightOf="@+id/practice_item_count"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"/>
+        android:layout_marginLeft="13dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -58,17 +58,17 @@
         android:layout_below="@+id/article_item_title"
         android:layout_toRightOf="@+id/practice_item_fximage"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="5dp"/>
+        android:layout_marginLeft="3dp"/>
 
     <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@drawable/fangxiang"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:src="@drawable/shoucang"
         android:id="@+id/practice_item_fximage2"
         android:layout_below="@+id/article_item_title"
         android:layout_toRightOf="@+id/practice_item_sharetext"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"/>
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="13dp"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
         android:layout_below="@+id/article_item_title"
         android:layout_toRightOf="@+id/practice_item_fximage2"
         android:layout_marginTop="15dp"
-        android:layout_marginLeft="5dp"/>
+        android:layout_marginLeft="3dp"/>
 
     <TextView
         android:layout_width="wrap_content"

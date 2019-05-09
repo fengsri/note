@@ -14,8 +14,21 @@ public class Article extends DataSupport {
     private String pic1;
     private String pic2;
     private String pic3;
-    private String address;
-    private String weather;
+    private String type;
+
+    public Article() {
+    }
+
+    public Article(String date, String title, String text, String icon, String pic1, String pic2, String pic3, String type) {
+        this.date = date;
+        this.title = title;
+        this.text = text;
+        this.icon = icon;
+        this.pic1 = pic1;
+        this.pic2 = pic2;
+        this.pic3 = pic3;
+        this.type = type;
+    }
 
     public String getDate() {
         return date;
@@ -73,19 +86,11 @@ public class Article extends DataSupport {
         this.pic3 = pic3;
     }
 
-    public String getAddress() {
-        return address;
+    public String getType() {
+        return type;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getWeather() {
-        return weather;
-    }
-
-    public void setWeather(String weather) {
-        this.weather = weather;
+    public void setType(String type) {
+        this.type = type;
     }
 }

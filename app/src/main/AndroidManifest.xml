@@ -40,11 +40,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" android:theme="@style/ThemeLogin"/>
-        <activity android:name=".GoodActivity" android:theme="@style/ThemeLogin"/>
+        <activity android:name=".GoodActivity"/>
         <activity android:name=".UserLoginActivity" android:theme="@style/ThemeLogin"/>
         <activity android:name=".RegisterActivity" android:theme="@style/ThemeLogin"/>
+        <activity android:name=".RegisterQQActivity" android:theme="@style/ThemeLogin"/>
         <activity android:name=".ForgetActivity" android:theme="@style/ThemeLogin"/>
-
+        <activity android:name=".DiaryShowActivity" android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".ArticleShowActivity"/>
+        <activity android:name=".NoteShowActivity"/>
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:noHistory="true"

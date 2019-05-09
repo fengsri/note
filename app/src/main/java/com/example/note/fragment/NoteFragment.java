@@ -13,7 +13,9 @@ import android.view.ViewGroup;
 import com.example.note.MainActivity;
 import com.example.note.R;
 import com.example.note.adapter.NoteRecyclerviewAdapter;
+import com.example.note.dao.NoteDao;
 import com.example.note.domain.Note;
+import com.example.note.util.UserUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,8 @@ public class NoteFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //获取本地数据库的数据
+         //noteList = NoteDao.getNoteFromLitePal(UserUtil.user.getObjectId());
     }
 
     @Nullable
@@ -49,7 +52,7 @@ public class NoteFragment extends Fragment implements View.OnClickListener{
 
     public void init(View view){
         recyclerView = view.findViewById(R.id.note_recyclerView);
-        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
         NoteRecyclerviewAdapter adapter = new NoteRecyclerviewAdapter(noteList);
         recyclerView.setAdapter(adapter);

@@ -5,10 +5,19 @@ import org.litepal.crud.DataSupport;
 import cn.bmob.v3.BmobUser;
 
 public class User  extends DataSupport {
+    private String userId;
     private String userUseDate;
     private String userSignature;
     private String userHeaderPic;
     private String userSchool;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getUserUseDate() {
         return userUseDate;

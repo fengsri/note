@@ -2,14 +2,17 @@ package com.example.note.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.note.DiaryShowActivity;
 import com.example.note.MainActivity;
 import com.example.note.R;
 import com.example.note.domain.Article;
@@ -32,7 +35,7 @@ public class DairyRecyclerviewAdapter extends RecyclerView.Adapter<DairyRecycler
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context=parent.getContext();
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_diary_recyclerview_item,parent,false);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_diary_recyclerview_items,parent,false);
         ViewHolder holder=new ViewHolder(view);
         return holder;
     }
@@ -40,23 +43,28 @@ public class DairyRecyclerviewAdapter extends RecyclerView.Adapter<DairyRecycler
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Diary diary = diaryList.get(position);
-//        Glide.with(context)
-//                    .load(article.getIcon())
-//                    .error(R.drawable.luncher_bg2)
-//                    .dontAnimate()
-//                    .into(holder.imageView);
 
-//        holder.imageView.setImageResource(R.drawable.luncher_bg5);
-//        holder.textView.setText(article.getTitle());
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        final Diary diary2 = new Diary();
+        diary2.setDate("2019/05/09");
+        diary2.setAddress("成都市西华大学");
+        diary2.setIcon("");
+        diary2.setPic("");
+        diary2.setText("大萨达撒多撒多撒大萨达撒多撒敖德萨多撒阿达阿斯顿撒多阿斯顿撒多撒阿大风吹散发飒飒");
+        diary2.setWeather("晴天");
+        diary2.setTitle("这是日记的标题");
+        holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent=new Intent(context, PracticeActivity.class);
-//                context.startActivity(intent);
+                Intent intent=new Intent(context, DiaryShowActivity.class);
+                intent.putExtra("date",diary2.getDate());
+                intent.putExtra("title",diary2.getTitle());
+                intent.putExtra("text",diary2.getText());
+                intent.putExtra("pic",diary2.getPic());
+                intent.putExtra("address",diary2.getAddress());
+                intent.putExtra("weather",diary2.getWeather());
+                context.startActivity(intent);
             }
         });
-
-
     }
     @Override
     public int getItemCount() {
@@ -64,20 +72,21 @@ public class DairyRecyclerviewAdapter extends RecyclerView.Adapter<DairyRecycler
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
+        RelativeLayout item;
+        TextView title;
+        TextView date;
         ImageView imageView;
-        TextView day;
-        TextView month;
-        TextView week;
         TextView weather;
-
+        TextView address;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imageView=itemView.findViewById(R.id.recyclerview_diary_item_image);
-            day=itemView.findViewById(R.id.recyclerview_diary_item_day);
-            month=itemView.findViewById(R.id.recyclerview_diary_item_month);
-            week=itemView.findViewById(R.id.recyclerview_diary_item_week);
-            weather=itemView.findViewById(R.id.recyclerview_diary_item_weather);
+            item = itemView.findViewById(R.id.diary_item);
+            title  =itemView.findViewById(R.id.diary_item_title);
+            date=itemView.findViewById(R.id.diary_item_date);
+            imageView =itemView.findViewById(R.id.diary_item_image);
+            weather=itemView.findViewById(R.id.dairy_item_weather_text);
+            address=itemView.findViewById(R.id.dairy_item_address_text);
         }
     }
 

@@ -16,7 +16,7 @@
             android:layout_height="25dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:src="@drawable/diary"
+            android:src="@drawable/riji"
             android:id="@+id/home_diary"/>
         <TextView
             android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
             android:layout_height="25dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:src="@drawable/note"
+            android:src="@drawable/bianqian"
             android:id="@+id/home_note"/>
         <TextView
             android:layout_width="wrap_content"
@@ -66,7 +66,7 @@
             android:layout_height="25dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
-            android:src="@drawable/article"
+            android:src="@drawable/wenzhang"
             android:id="@+id/home_article"/>
         <TextView
             android:layout_width="wrap_content"

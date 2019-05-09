@@ -1,7 +1,9 @@
 package com.example.note;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,10 +28,19 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.example.note.bean.Diary;
+import com.example.note.bean.Note;
+import com.example.note.bean.User;
+import com.example.note.dao.ArticleDao;
+import com.example.note.dao.DiaryDao;
+import com.example.note.dao.NoteDao;
 import com.example.note.fragment.ArticleFragment;
 import com.example.note.fragment.DiaryFragment;
 import com.example.note.fragment.NoteFragment;
+import com.example.note.util.UserUtil;
 import com.tencent.connect.common.Constants;
 import com.tencent.connect.share.QzoneShare;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -44,9 +55,19 @@ import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
 import org.litepal.LitePal;
+import org.litepal.crud.DataSupport;
+
+import java.util.List;
+
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
+
+import static cn.bmob.newim.util.IMLogger.init;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
 
     private CoordinatorLayout app_bar_main_view;
 
@@ -65,14 +86,25 @@ public class MainActivity extends AppCompatActivity
 
     private IWXAPI api;
     private Tencent mTencent;
-    private BaseUiListener mIUiListener=new BaseUiListener();
+    private BaseUiListener mIUiListener = new BaseUiListener();
+
+    private com.example.note.bean.User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initView();
         //数据库初始化
         LitePal.getDatabase();
+
+        user = BmobUser.getCurrentUser(com.example.note.bean.User.class);
+        UserUtil.user = user;
+
+        //刷新本地数据库的数据
+        initData();
+        //设置view
+        initView();
+
         //第一：默认初始化微信
         api = WXAPIFactory.createWXAPI(this, "wxf371098a435d7f2b");
         api.registerApp("wxf371098a435d7f2b");
@@ -80,7 +112,18 @@ public class MainActivity extends AppCompatActivity
         mTencent = Tencent.createInstance("101572837", this.getApplicationContext());
     }
 
-    public void initView(){
+
+    private void initData() {
+        DiaryDao.refreshNewDiary(user.getObjectId());
+        NoteDao.refreshNewNote(user.getObjectId());
+        ArticleDao.refreshNewArticle();
+
+        List<com.example.note.domain.Note> litePalNote = NoteDao.getNoteFromLitePal(user.getObjectId());
+        Toast.makeText(MainActivity.this,litePalNote.size()+"个note",Toast.LENGTH_SHORT).show();
+   }
+
+
+    public void initView() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         titleText = findViewById(R.id.title_text);
@@ -102,11 +145,11 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
                 super.onDrawerSlide(drawerView, slideOffset);
-                int drawerwidth=drawerView.getMeasuredWidth();
-                int left_x=(int)(drawerwidth*slideOffset);
+                int drawerwidth = drawerView.getMeasuredWidth();
+                int left_x = (int) (drawerwidth * slideOffset);
                 app_bar_main_view.setLeft(left_x);
-                app_bar_main_view.setScaleY((float)(1-0.3*slideOffset));
-                app_bar_main_view.setScaleX((float)(1-0.3*slideOffset));
+                app_bar_main_view.setScaleY((float) (1 - 0.3 * slideOffset));
+                app_bar_main_view.setScaleX((float) (1 - 0.3 * slideOffset));
             }
         });
 
@@ -136,12 +179,28 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("提示！");
+        builder.setMessage("你要退出软件吗？");
+        builder.setIcon(R.mipmap.ic_launcher_round);
+        //点击对话框以外的区域是否让对话框消失
+        builder.setCancelable(true);
+        //设置正面按钮
+        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        //设置反面按钮
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override
@@ -173,7 +232,11 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-
+            BmobUser.logOut();
+            // DataSupport.deleteAll(User.class,"userId=?",user.getObjectId());
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+            this.finish();
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -182,20 +245,20 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.home_diary2:{
+        switch (v.getId()) {
+            case R.id.home_diary2: {
                 setBackgroud(1);
                 replace(new DiaryFragment());
                 titleText.setText(R.string.bottom_text1);
                 break;
             }
-            case R.id.home_note2:{
+            case R.id.home_note2: {
                 setBackgroud(2);
                 replace(new NoteFragment());
                 titleText.setText(R.string.bottom_text2);
                 break;
             }
-            case R.id.home_article2:{
+            case R.id.home_article2: {
                 setBackgroud(3);
                 replace(new ArticleFragment());
                 titleText.setText(R.string.bottom_text3);
@@ -208,7 +271,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-   // TODO Auto-generated method stub
+        // TODO Auto-generated method stub
         super.onActivityResult(requestCode, resultCode, data);
         Tencent.onActivityResultData(requestCode, resultCode, data, mIUiListener);
         if (requestCode == Constants.REQUEST_API) {
@@ -225,21 +288,21 @@ public class MainActivity extends AppCompatActivity
         replace.commit();
     }
 
-    public void setBackgroud(int tag){
-        diary.setImageResource(R.drawable.diary);
-        note.setImageResource(R.drawable.note);
-        article.setImageResource(R.drawable.article);
+    public void setBackgroud(int tag) {
+        diary.setImageResource(R.drawable.riji);
+        note.setImageResource(R.drawable.bianqian);
+        article.setImageResource(R.drawable.wenzhang);
         textDiary.setTextColor(Color.parseColor("#2b2b2b"));
         textNote.setTextColor(Color.parseColor("#2b2b2b"));
         textArticle.setTextColor(Color.parseColor("#2b2b2b"));
-        if(tag==1){
-            diary.setImageResource(R.drawable.diary2);
+        if (tag == 1) {
+            diary.setImageResource(R.drawable.riji2);
             textDiary.setTextColor(Color.parseColor("#5299f5"));
-        }else if(tag==2){
-            note.setImageResource(R.drawable.note2);
+        } else if (tag == 2) {
+            note.setImageResource(R.drawable.bianqian2);
             textNote.setTextColor(Color.parseColor("#5299f5"));
-        }else if(tag==3){
-            article.setImageResource(R.drawable.article2);
+        } else if (tag == 3) {
+            article.setImageResource(R.drawable.wenzhang2);
             textArticle.setTextColor(Color.parseColor("#5299f5"));
         }
     }
@@ -305,9 +368,9 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent("android.intent.action.SEND");
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_SUBJECT, "纯文字分享");
-        intent.putExtra(Intent.EXTRA_TEXT,text);
+        intent.putExtra(Intent.EXTRA_TEXT, text);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setComponent(new ComponentName("com.tencent.mobileqq","com.tencent.mobileqq.activity.JumpActivity"));
+        intent.setComponent(new ComponentName("com.tencent.mobileqq", "com.tencent.mobileqq.activity.JumpActivity"));
         startActivity(intent);
     }
 
@@ -317,7 +380,7 @@ public class MainActivity extends AppCompatActivity
         params.putInt(QzoneShare.SHARE_TO_QZONE_KEY_TYPE, QzoneShare.SHARE_TO_QZONE_TYPE_IMAGE_TEXT);
         params.putString(QzoneShare.SHARE_TO_QQ_TITLE, "打卡");// 标题
         params.putString(QzoneShare.SHARE_TO_QQ_SUMMARY, text);// 摘
-        params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL,"http://www.qq.com/news/1.html");// 内容地址
+        params.putString(QzoneShare.SHARE_TO_QQ_TARGET_URL, "http://www.qq.com/news/1.html");// 内容地址
         // 分享操作要在主线程中完成
         runOnUiThread(new Runnable() {
             @Override
@@ -351,10 +414,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     @SuppressLint("RestrictedApi")
-    public void hinden(int tag){
-        if(tag==1){
+    public void hinden(int tag) {
+        if (tag == 1) {
             fab.setVisibility(View.VISIBLE);
-        }else if(tag==2){
+        } else if (tag == 2) {
             fab.setVisibility(View.INVISIBLE);
         }
     }

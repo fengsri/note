@@ -13,7 +13,9 @@ import android.view.ViewGroup;
 import com.example.note.MainActivity;
 import com.example.note.R;
 import com.example.note.adapter.DairyRecyclerviewAdapter;
+import com.example.note.dao.DiaryDao;
 import com.example.note.domain.Diary;
+import com.example.note.util.UserUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,8 @@ public class DiaryFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        //获取本地数据库的数据
+       // diaryList = DiaryDao.getDiaryFromLitePal(UserUtil.user.getObjectId());
     }
 
 
