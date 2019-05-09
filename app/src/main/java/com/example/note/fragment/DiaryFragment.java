@@ -29,7 +29,7 @@ public class DiaryFragment extends Fragment implements View.OnClickListener{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //获取本地数据库的数据
-       // diaryList = DiaryDao.getDiaryFromLitePal(UserUtil.user.getObjectId());
+        diaryList = DiaryDao.getDiaryFromLitePal(UserUtil.user.getObjectId());
     }
 
 
@@ -37,18 +37,20 @@ public class DiaryFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = container.getContext();
-        View view =LayoutInflater.from(container.getContext()).inflate(R.layout.fragment_diary,container,false);
-        ((MainActivity)context).hinden(1);
-        initData();
-        init(view);
+        View view = null;
+        if(diaryList!=null && diaryList.size()>0){
+            view =LayoutInflater.from(container.getContext()).inflate(R.layout.fragment_diary,container,false);
+            ((MainActivity)context).hinden(1);
+            //initData();
+            init(view);
+        }else{
+            view =LayoutInflater.from(container.getContext()).inflate(R.layout.data_null,container,false);
+        }
         return view;
     }
 
     private void initData() {
-        for(int i=0;i<20;i++){
-            Diary diary = new Diary();
-            diaryList.add(diary);
-        }
+        diaryList = DiaryDao.getDiaryFromLitePal(UserUtil.user.getObjectId());
     }
 
     public void init(View view){

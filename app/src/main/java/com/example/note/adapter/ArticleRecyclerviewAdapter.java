@@ -60,7 +60,7 @@ public class ArticleRecyclerviewAdapter extends RecyclerView.Adapter<ArticleRecy
                 // 创建对话框构建器
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 // 设置参数
-                builder.setIcon(R.drawable.fenxiang2).setTitle("分享")
+                builder.setIcon(R.drawable.fenxiang).setTitle("分享")
                         .setItems(items, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -85,7 +85,7 @@ public class ArticleRecyclerviewAdapter extends RecyclerView.Adapter<ArticleRecy
                 // 创建对话框构建器
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 // 设置参数
-                builder.setIcon(R.drawable.share).setTitle("分享")
+                builder.setIcon(R.drawable.fenxiang).setTitle("分享")
                         .setItems(items, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

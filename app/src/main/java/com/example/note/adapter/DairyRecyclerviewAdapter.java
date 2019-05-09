@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.note.DiaryShowActivity;
 import com.example.note.MainActivity;
 import com.example.note.R;
@@ -42,16 +43,16 @@ public class DairyRecyclerviewAdapter extends RecyclerView.Adapter<DairyRecycler
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final Diary diary = diaryList.get(position);
-
-        final Diary diary2 = new Diary();
-        diary2.setDate("2019/05/09");
-        diary2.setAddress("成都市西华大学");
-        diary2.setIcon("");
-        diary2.setPic("");
-        diary2.setText("大萨达撒多撒多撒大萨达撒多撒敖德萨多撒阿达阿斯顿撒多阿斯顿撒多撒阿大风吹散发飒飒");
-        diary2.setWeather("晴天");
-        diary2.setTitle("这是日记的标题");
+        final Diary diary2 = diaryList.get(position);
+        holder.title.setText(diary2.getTitle());
+        holder.weather.setText(diary2.getWeather());
+        holder.address.setText(diary2.getAddress());
+        holder.date.setText(diary2.getDate());
+        Glide.with(context)
+                .load(diary2.getPic())
+                .error(R.drawable.luncher_bg3)
+                .dontAnimate()
+                .into(holder.imageView);
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

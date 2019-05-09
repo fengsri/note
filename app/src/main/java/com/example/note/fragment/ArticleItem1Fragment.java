@@ -29,7 +29,7 @@ public class ArticleItem1Fragment extends Fragment implements View.OnClickListen
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
        //获取本地数据库的数据
-       // articleList = ArticleDao.getByTypeArticleFromLitePal("1");
+        initData();
     }
 
 
@@ -37,34 +37,20 @@ public class ArticleItem1Fragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = container.getContext();
-        View view =LayoutInflater.from(container.getContext()).inflate(R.layout.fragment_article_item1,container,false);
-        initData();
-        init(view);
+        View view = null;
+        if(articleList!=null && articleList.size()>0){
+             view =LayoutInflater.from(container.getContext()).inflate(R.layout.fragment_article_item1,container,false);
+            ((MainActivity)context).hinden(2);
+            //initData();
+            init(view);
+        }else{
+            view =LayoutInflater.from(container.getContext()).inflate(R.layout.data_false,container,false);
+        }
         return view;
     }
 
     private void initData() {
-        for(int i=0;i<20;i++){
-            Article article =new Article(
-                    "2019/05/09",
-                    "这是文章的标题",
-                    "这是文章的内容" +
-                            "这是文章的内容" +
-                            "这是文章的内容" +
-                            "这是文章的内容" +
-                            "这是文章的内容" +
-                            "这是文章的内容" +
-                            "这是文章的内容" +
-                            "这是文章的内容" +
-                            "这是文章的内容" +
-                            "这是文章的内容" +
-                            "","icon",
-                    "pic1",
-                    "pic2",
-                    "pic3",
-                    "1");
-            articleList.add(article);
-        }
+        articleList = ArticleDao.getByTypeArticleFromLitePal("1");
     }
 
     public void init(View view){

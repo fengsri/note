@@ -84,6 +84,8 @@ public class MainActivity extends AppCompatActivity
     private Toolbar toolbar;
     private TextView titleText;
     private FloatingActionButton fab;
+    private CircleImageView headerPic;
+
 
     private IWXAPI api;
     private Tencent mTencent;
@@ -91,6 +93,10 @@ public class MainActivity extends AppCompatActivity
 
     private com.example.note.bean.User user;
 
+    /**
+     * activity的创建
+     * @param savedInstanceState
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,16 +120,37 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    /**
+     * 初始化加载数据
+     */
     private void initData() {
+//        DiaryDao.saveBeanDiaryToYun(user.getObjectId(),
+//                "2019/05/09","这是日记标题",
+//                "这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容",
+//                "icon",
+//                "pic",
+//                "成都市西华大学",
+//                "晴天",MainActivity.this);
+//        NoteDao.saveBeanNoteToYun(user.getObjectId(),
+//                "2019/05/09","这是便签标题",
+//                "这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容",
+//                "icon",
+//                "pic",
+//                "成都市西华大学",
+//                "晴天",
+//                MainActivity.this);
         DiaryDao.refreshNewDiary(user.getObjectId());
         NoteDao.refreshNewNote(user.getObjectId());
         ArticleDao.refreshNewArticle();
 
-        List<com.example.note.domain.Note> litePalNote = NoteDao.getNoteFromLitePal(user.getObjectId());
-        Toast.makeText(MainActivity.this,litePalNote.size()+"个note",Toast.LENGTH_SHORT).show();
+     /*   List<com.example.note.domain.Note> litePalNote = NoteDao.getNoteFromLitePal(user.getObjectId());
+        Toast.makeText(MainActivity.this,litePalNote.size()+"个note",Toast.LENGTH_SHORT).show();*/
    }
 
 
+    /**
+     * 绑定view
+     */
     public void initView() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -178,7 +205,7 @@ public class MainActivity extends AppCompatActivity
 
 
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
-        CircleImageView headerPic = headerLayout.findViewById(R.id.home_header_pic);
+        headerPic = headerLayout.findViewById(R.id.home_header_pic);
 
         Glide.with(MainActivity.this)
                 .load(user.getUserHeaderPic())
@@ -192,6 +219,9 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    /**
+     * 点击返回调用
+     */
     @Override
     public void onBackPressed() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -218,12 +248,22 @@ public class MainActivity extends AppCompatActivity
         dialog.show();
     }
 
+    /**
+     * 创建菜单
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
+    /**
+     * 点击菜单
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -233,11 +273,30 @@ public class MainActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Glide.with(MainActivity.this)
+                .load(UserUtil.user.getUserHeaderPic())
+                .error(R.drawable.touxiang)
+                .dontAnimate()
+                .into(headerPic);
+
+    }
+
+    /**
+     * 个人中心的点击
+     * @param item
+     * @return
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.nav_camera) {
+            Intent intent = new Intent(MainActivity.this,ActivitySetHeaderPic.class);
+            startActivity(intent);
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
@@ -258,6 +317,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * view的点击
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -284,6 +347,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
@@ -303,6 +367,10 @@ public class MainActivity extends AppCompatActivity
         replace.commit();
     }
 
+    /**
+     * 设置背景
+     * @param tag
+     */
     public void setBackgroud(int tag) {
         diary.setImageResource(R.drawable.riji);
         note.setImageResource(R.drawable.bianqian);
@@ -365,6 +433,10 @@ public class MainActivity extends AppCompatActivity
         api.sendReq(req);
     }
 
+    /**
+     * qq分享
+     * @param text
+     */
     public void shareToQQ(String text) {
 //        final Bundle params;
 //        params = new Bundle();
@@ -389,6 +461,10 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    /**
+     * 空间分享
+     * @param text
+     */
     public void shareToQZone(String text) {
         final Bundle params;
         params = new Bundle();
@@ -428,6 +504,10 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * 设置悬浮按钮的显示隐藏
+     * @param tag
+     */
     @SuppressLint("RestrictedApi")
     public void hinden(int tag) {
         if (tag == 1) {

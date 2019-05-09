@@ -82,7 +82,7 @@ public class ArticleDao {
             public void done(List<Article> beanArticle, BmobException e) {
                 if (e == null) {
                     ArticleDao.deleteDiaryFromLitePal();
-                    if (beanArticle == null) {
+                    if (beanArticle != null && beanArticle.size()>0) {
                         for (Article article : beanArticle) {
                             ArticleDao.saveDiaryBeanToLitPal(article);
                         }

@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.tencent.connect.common.Constants;
 import com.tencent.connect.share.QzoneShare;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
@@ -76,8 +77,11 @@ public class DiaryShowActivity  extends AppCompatActivity implements View.OnClic
         //头部
         collapsingToolbar = findViewById(R.id.collapsing_toolbar);
         imageView = findViewById(R.id.diary_show_image);
-        imageView.setImageResource(R.drawable.luncher_bg2);
-
+        Glide.with(DiaryShowActivity.this)
+                .load(pic)
+                .error(R.drawable.luncher_bg2)
+                .dontAnimate()
+                .into(imageView);
         titleText = findViewById(R.id.dairy_show_title);
         titleText.setText(title);
         weatherText = findViewById(R.id.dairy_show_weather);
@@ -132,7 +136,7 @@ public class DiaryShowActivity  extends AppCompatActivity implements View.OnClic
         // 创建对话框构建器
         AlertDialog.Builder builder = new AlertDialog.Builder(DiaryShowActivity.this);
         // 设置参数
-        builder.setIcon(R.drawable.share).setTitle("分享")
+        builder.setIcon(R.drawable.fenxiang).setTitle("分享")
                 .setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

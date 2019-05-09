@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.note.MainActivity;
 import com.example.note.R;
 import com.example.note.adapter.ArticleRecyclerviewAdapter;
 import com.example.note.domain.Article;
@@ -36,9 +37,15 @@ public class ArticleItem5Fragment extends Fragment implements View.OnClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = container.getContext();
-        View view =LayoutInflater.from(container.getContext()).inflate(R.layout.fragment_article_item5,container,false);
-        initData();
-        init(view);
+        View view = null;
+        if(articleList!=null && articleList.size()>0){
+            view =LayoutInflater.from(container.getContext()).inflate(R.layout.fragment_article_item5,container,false);
+            ((MainActivity)context).hinden(2);
+            //initData();
+            init(view);
+        }else{
+            view =LayoutInflater.from(container.getContext()).inflate(R.layout.data_false,container,false);
+        }
         return view;
     }
 

@@ -40,10 +40,8 @@ public class NoteRecyclerviewAdapter extends RecyclerView.Adapter<NoteRecyclervi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Note note = noteList.get(position);
-
-        note.setTitle("这是便签标题");
-        note.setText("这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容这是便签内容");
-        note.setDate("2019/05/09");
+        holder.title.setText(note.getTitle());
+        holder.date.setText(note.getDate());
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

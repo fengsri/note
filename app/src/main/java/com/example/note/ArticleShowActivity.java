@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.note.adapter.ImagerViewPager;
+import com.example.note.util.ImageUtil;
 import com.example.note.view.CircleIndicator2;
 
 import java.util.ArrayList;
@@ -66,11 +67,10 @@ public class ArticleShowActivity extends AppCompatActivity {
           titlestr = getIntent().getStringExtra("title");
           autherstr= getIntent().getStringExtra("auther");
           textstr= getIntent().getStringExtra("text");
-         int[] imageIds= {R.drawable.luncher_bg1,R.drawable.luncher_bg2,R.drawable.luncher_bg3,R.drawable.luncher_bg4,R.drawable.luncher_bg5,R.drawable.luncher_bg1};
          for(int i=0;i<3;i++){
              ImageView imageView=new ImageView(ArticleShowActivity.this);
              imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-             imageView.setImageResource(imageIds[(int)(Math.random()*(imageIds.length))]);
+             imageView.setImageResource(ImageUtil.getRandImageId());
              imageView.setTag(i);
              list.add(imageView);
          }

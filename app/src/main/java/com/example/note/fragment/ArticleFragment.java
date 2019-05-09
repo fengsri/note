@@ -28,6 +28,7 @@ import com.example.note.MainActivity;
 import com.example.note.R;
 import com.example.note.adapter.ImagerViewPager;
 import com.example.note.adapter.MyViewPagerAdapter;
+import com.example.note.util.ImageUtil;
 import com.example.note.view.CircleIndicator;
 import com.example.note.view.RecyclerScrollView;
 
@@ -151,11 +152,10 @@ public class ArticleFragment extends Fragment implements View.OnClickListener{
     }
 
     public void initData(){
-        final int imageId[]={R.drawable.luncher_bg1,R.drawable.luncher_bg2,R.drawable.luncher_bg3,R.drawable.luncher_bg5,R.drawable.luncher_bg2};
         for(int i=0;i<150;i++) {//循环5次加载轮播图，并设置轮播图的点击事件
             final ImageView imageView=new ImageView(context);
             imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-            imageView.setImageResource(imageId[(int)(Math.random()*(imageId.length))]);
+            imageView.setImageResource(ImageUtil.getRandImageId());
             imageView.setTag(i);
             imageViewListHeader.add(imageView);
             final int finalI = i;

@@ -29,25 +29,27 @@ public class NoteFragment extends Fragment implements View.OnClickListener{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //获取本地数据库的数据
-         //noteList = NoteDao.getNoteFromLitePal(UserUtil.user.getObjectId());
+        initData();
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         context = container.getContext();
-        View view =LayoutInflater.from(container.getContext()).inflate(R.layout.fragment_note,container,false);
-        ((MainActivity)context).hinden(1);
-        initData();
-        init(view);
+        View view = null;
+        if(noteList!=null && noteList.size()>0){
+            view =LayoutInflater.from(container.getContext()).inflate(R.layout.fragment_note,container,false);
+            ((MainActivity)context).hinden(1);
+            // initData();
+            init(view);
+        }else{
+            view =LayoutInflater.from(container.getContext()).inflate(R.layout.data_null,container,false);
+        }
         return view;
     }
 
     private void initData() {
-        for(int i=0;i<20;i++){
-            Note note =new Note();
-            noteList.add(note);
-        }
+        noteList = NoteDao.getNoteFromLitePal(UserUtil.user.getObjectId());
     }
 
     public void init(View view){
