@@ -97,7 +97,7 @@ public class ArticleDao {
      * @param type
      * @return
      */
-    public static List<com.example.note.domain.Article> getByTypeArticleFromLitePal(String type){
+    public static List<com.example.note.domain.Article> getByTypeArticleFromLitePal(String type,List<com.example.note.domain.Article> data2){
         List<com.example.note.domain.Article> articleList = ArticleDao.getArticleFromLitePal();
         List<com.example.note.domain.Article> data = new ArrayList<com.example.note.domain.Article>();
         for(com.example.note.domain.Article article:articleList){
@@ -106,7 +106,12 @@ public class ArticleDao {
                 data.add(article);
             }
         }
-        return data;
+        data2.clear();
+        for(int i=0;i<10;i++){
+            int rand = (int)((Math.random())*(data.size()));
+            data2.add(data.get(rand));
+        }
+        return data2;
     }
 
     /**

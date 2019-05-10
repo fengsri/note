@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.example.note.MainActivity;
 import com.example.note.R;
 import com.example.note.adapter.DairyRecyclerviewAdapter;
@@ -25,11 +26,13 @@ public class DiaryFragment extends Fragment implements View.OnClickListener{
     private Context context;
     private RecyclerView recyclerView;
     private List<Diary> diaryList = new ArrayList<>();
+    public DairyRecyclerviewAdapter adapter;
+    private PullRefreshLayout pullRefreshLayout;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //获取本地数据库的数据
-        diaryList = DiaryDao.getDiaryFromLitePal(UserUtil.user.getObjectId());
+        initData();
     }
 
 
@@ -45,28 +48,50 @@ public class DiaryFragment extends Fragment implements View.OnClickListener{
             init(view);
         }else{
             view =LayoutInflater.from(container.getContext()).inflate(R.layout.data_null,container,false);
+            ((MainActivity)context).hinden(1);
         }
         return view;
     }
 
     private void initData() {
-        diaryList = DiaryDao.getDiaryFromLitePal(UserUtil.user.getObjectId());
+        diaryList = DiaryDao.getDiaryFromLitePal(UserUtil.user.getObjectId(),diaryList);
     }
 
     public void init(View view){
+        pullRefreshLayout = view.findViewById(R.id.dairy_swipeRefreshLayout);
         recyclerView = view.findViewById(R.id.diay_recyclerView);
         LinearLayoutManager manager=new LinearLayoutManager(context);
-        DairyRecyclerviewAdapter adapter=new DairyRecyclerviewAdapter(diaryList);
+        adapter=new DairyRecyclerviewAdapter(diaryList);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
         registerForContextMenu(recyclerView);
+        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pullRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        shuaxing();
+                        // 刷新3秒完成
+                        pullRefreshLayout.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
     }
     @Override
     public void onResume() {
         super.onResume();
 
+    }
+
+    public void shuaxing(){
+        initData();
+        if(diaryList!=null && diaryList.size()>0){
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Override

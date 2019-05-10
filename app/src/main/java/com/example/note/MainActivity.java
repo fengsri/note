@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,12 +12,15 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -34,6 +38,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.example.note.bean.Article;
 import com.example.note.bean.Diary;
@@ -198,10 +204,23 @@ public class MainActivity extends AppCompatActivity
                     "pic3",
                     "5",MainActivity.this);
         }*/
+        final MaterialDialog dialog = new MaterialDialog.Builder(this)
+                .title("加载数据")
+                .content("Please Wait......")
+                .progress(true, 0)
+                .show();
 
         DiaryDao.refreshNewDiary(user.getObjectId());
         NoteDao.refreshNewNote(user.getObjectId());
         ArticleDao.refreshNewArticle();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                replace(new DiaryFragment());
+                dialog.dismiss();
+            }
+        },2000);
+
    }
 
 
@@ -249,11 +268,6 @@ public class MainActivity extends AppCompatActivity
         textNote = findViewById(R.id.home_note_text);
         textArticle = findViewById(R.id.home_article_text);
 
-        setBackgroud(1);
-        replace(new DiaryFragment());
-        titleText.setText(R.string.bottom_text1);
-
-
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
         headerPic = headerLayout.findViewById(R.id.home_header_pic);
 
@@ -266,6 +280,9 @@ public class MainActivity extends AppCompatActivity
         TextView email = headerLayout.findViewById(R.id.home_email);
         username.setText(user.getUsername());
         email.setText(user.getEmail());
+
+        setBackgroud(1);
+        titleText.setText(R.string.bottom_text1);
     }
 
 
@@ -274,28 +291,24 @@ public class MainActivity extends AppCompatActivity
      */
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("提示！");
-        builder.setMessage("你要退出软件吗？");
-        builder.setIcon(R.mipmap.ic_launcher_round);
-        //点击对话框以外的区域是否让对话框消失
-        builder.setCancelable(true);
-        //设置正面按钮
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        //设置反面按钮
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        new MaterialDialog.Builder(this)
+                .title("提示！")
+                .content("是否退出软件")
+                .positiveText("确认")
+                .negativeText("取消")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                        finish();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                        // TODO
+                    }
+                })
+                .show();
     }
 
     /**
@@ -307,6 +320,32 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+
+    private void showBottomSheetDialog() {
+        View view = LayoutInflater.from(this).inflate(R.layout.bottom_sheet_dialog, null);
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(MainActivity.this);
+        bottomSheetDialog.setContentView(view);
+        //给布局设置透明背景色
+        bottomSheetDialog.getDelegate().findViewById(android.support.design.R.id.design_bottom_sheet)
+                .setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        bottomSheetDialog.show();
+
+        view.findViewById(R.id.bottom_image1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this,WriteDiaryActivity.class);
+////                startActivity(intent);
+            }
+        });
+        view.findViewById(R.id.bottom_image2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this,WriteDiaryActivity.class);
+////                startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -404,7 +443,7 @@ public class MainActivity extends AppCompatActivity
                     }
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                       // share(title);
+                        showBottomSheetDialog();
                     }
                     @Override
                     public void onAnimationCancel(Animator animation) {

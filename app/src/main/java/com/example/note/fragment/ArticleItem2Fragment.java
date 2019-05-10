@@ -23,8 +23,8 @@ import java.util.List;
 public class ArticleItem2Fragment extends Fragment implements View.OnClickListener {
     private Context context;
     private RecyclerView recyclerView;
-    private List<Article> articleList = new ArrayList<>();
-
+    public List<Article> articleList = new ArrayList<>();
+    public ArticleRecyclerviewAdapter adapter;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,14 +49,14 @@ public class ArticleItem2Fragment extends Fragment implements View.OnClickListen
         return view;
     }
 
-    private void initData() {
-        articleList = ArticleDao.getByTypeArticleFromLitePal("2");
+    public void initData() {
+        articleList = ArticleDao.getByTypeArticleFromLitePal("2",articleList);
     }
 
     public void init(View view) {
         recyclerView = view.findViewById(R.id.article_item2_recyclerView);
         LinearLayoutManager manager = new LinearLayoutManager(context);
-        ArticleRecyclerviewAdapter adapter = new ArticleRecyclerviewAdapter(articleList);
+        adapter = new ArticleRecyclerviewAdapter(articleList);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
     }

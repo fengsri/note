@@ -111,12 +111,19 @@ public class DiaryDao {
      * @param userId
      * @return
      */
+    public static List<com.example.note.domain.Diary> getDiaryFromLitePal(String userId,List<com.example.note.domain.Diary> diaryList2){
+        List<com.example.note.domain.Diary> diaryList = DataSupport.where("userId = ?", userId).find(com.example.note.domain.Diary.class);
+        diaryList2.clear();
+        for(com.example.note.domain.Diary diary:diaryList){
+            diaryList2.add(diary);
+        }
+        return diaryList2;
+    }
+
     public static List<com.example.note.domain.Diary> getDiaryFromLitePal(String userId){
         List<com.example.note.domain.Diary> diaryList = DataSupport.where("userId = ?", userId).find(com.example.note.domain.Diary.class);
         return diaryList;
     }
-
-
     /**
      * 书刷新本地数据
      * @param userId

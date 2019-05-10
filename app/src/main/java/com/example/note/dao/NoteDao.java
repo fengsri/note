@@ -60,7 +60,14 @@ public class NoteDao {
         List<com.example.note.domain.Note> noteList = DataSupport.where("userId = ?", userId).find(com.example.note.domain.Note.class);
         return noteList;
     }
-
+    public static List<com.example.note.domain.Note> getNoteFromLitePal(String userId,List<com.example.note.domain.Note> noteList2){
+        List<com.example.note.domain.Note> noteList = DataSupport.where("userId = ?", userId).find(com.example.note.domain.Note.class);
+        noteList2.clear();
+        for(com.example.note.domain.Note note:noteList){
+            noteList2.add(note);
+        }
+        return noteList2;
+    }
     /**
      * 保存Note到云
      * @param userId

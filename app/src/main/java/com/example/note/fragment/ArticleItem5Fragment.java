@@ -24,7 +24,8 @@ public class ArticleItem5Fragment extends Fragment implements View.OnClickListen
 
     private Context context;
     private RecyclerView recyclerView;
-    private List<Article> articleList = new ArrayList<>();
+    public List<Article> articleList = new ArrayList<>();
+    public ArticleRecyclerviewAdapter adapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,14 +51,14 @@ public class ArticleItem5Fragment extends Fragment implements View.OnClickListen
         return view;
     }
 
-    private void initData() {
-        articleList = ArticleDao.getByTypeArticleFromLitePal("5");
+    public void initData() {
+        articleList = ArticleDao.getByTypeArticleFromLitePal("5",articleList);
     }
 
     public void init(View view){
         recyclerView  = view.findViewById(R.id.article_item5_recyclerView);
         LinearLayoutManager manager=new LinearLayoutManager(context);
-        ArticleRecyclerviewAdapter adapter = new ArticleRecyclerviewAdapter(articleList);
+        adapter = new ArticleRecyclerviewAdapter(articleList);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
     }

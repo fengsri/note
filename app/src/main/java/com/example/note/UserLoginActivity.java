@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.example.note.bean.User;
 
@@ -71,7 +73,7 @@ public class UserLoginActivity extends AppCompatActivity implements View.OnClick
                                 if (e == null) {
                                     Glide.with(UserLoginActivity.this)
                                             .load(object.get(0).getUserHeaderPic())
-                                            .error(R.drawable.luncher_bg2)
+                                            .error(R.drawable.touxiang)
                                             .dontAnimate()
                                             .into(login_image);
                                 } else {
@@ -88,7 +90,7 @@ public class UserLoginActivity extends AppCompatActivity implements View.OnClick
                                 if (e == null) {
                                     Glide.with(UserLoginActivity.this)
                                             .load(object.get(0).getUserHeaderPic())
-                                            .error(R.drawable.luncher_bg2)
+                                            .error(R.drawable.touxiang)
                                             .dontAnimate()
                                             .into(login_image);
                                 } else {
@@ -133,28 +135,24 @@ public class UserLoginActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("提示！");
-        builder.setMessage("你要退出软件吗？");
-        builder.setIcon(R.mipmap.ic_launcher_round);
-        //点击对话框以外的区域是否让对话框消失
-        builder.setCancelable(true);
-        //设置正面按钮
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        //设置反面按钮
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        new MaterialDialog.Builder(this)
+                .title("提示！")
+                .content("是否退出软件")
+                .positiveText("确认")
+                .negativeText("取消")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                        finish();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                        // TODO
+                    }
+                })
+                .show();
     }
 
     /**

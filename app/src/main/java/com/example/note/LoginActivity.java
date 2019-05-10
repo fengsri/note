@@ -6,11 +6,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.note.bean.User;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.auth.QQToken;
@@ -45,28 +48,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("提示！");
-        builder.setMessage("你要退出软件吗？");
-        builder.setIcon(R.mipmap.ic_launcher_round);
-        //点击对话框以外的区域是否让对话框消失
-        builder.setCancelable(true);
-        //设置正面按钮
-        builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-            }
-        });
-        //设置反面按钮
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        new MaterialDialog.Builder(this)
+                .title("提示！")
+                .content("是否退出软件")
+                .positiveText("确认")
+                .negativeText("取消")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                        finish();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(MaterialDialog dialog, DialogAction which) {
+                        // TODO
+                    }
+                })
+                .show();
     }
 
 
@@ -121,13 +120,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     public void getsize(final String nickname, String sexStr, final String headImg){
-        final ProgressDialog dialog = new ProgressDialog(this);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
-        dialog.setCancelable(false);// 设置是否可以通过点击Back键取消
-        dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
-        // 设置提示的title的图标，默认是没有的，如果没有设置title的话只设置Icon是不会显示图标的
-        dialog.setTitle("");
-        dialog.show();
+        final MaterialDialog dialog = new MaterialDialog.Builder(this)
+                .title("登录中")
+                .content("Please Wait......")
+                .progress(true, 0)
+                .show();
 
         BmobUser.loginByAccount(nickname, nickname, new LogInListener<User>() {
             @Override

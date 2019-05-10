@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.example.note.MainActivity;
 import com.example.note.R;
 import com.example.note.adapter.NoteRecyclerviewAdapter;
@@ -25,6 +26,8 @@ public class NoteFragment extends Fragment implements View.OnClickListener{
     private Context context;
     private RecyclerView recyclerView;
     private List<Note> noteList = new ArrayList<>();
+    private NoteRecyclerviewAdapter adapter;
+    private PullRefreshLayout pullRefreshLayout;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,26 +47,46 @@ public class NoteFragment extends Fragment implements View.OnClickListener{
             init(view);
         }else{
             view =LayoutInflater.from(container.getContext()).inflate(R.layout.data_null,container,false);
+            ((MainActivity)context).hinden(1);
         }
         return view;
     }
 
     private void initData() {
-        noteList = NoteDao.getNoteFromLitePal(UserUtil.user.getObjectId());
+        noteList = NoteDao.getNoteFromLitePal(UserUtil.user.getObjectId(),noteList);
     }
 
     public void init(View view){
+        pullRefreshLayout = view.findViewById(R.id.note_swipeRefreshLayout);
         recyclerView = view.findViewById(R.id.note_recyclerView);
         StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(manager);
-        NoteRecyclerviewAdapter adapter = new NoteRecyclerviewAdapter(noteList);
+        adapter = new NoteRecyclerviewAdapter(noteList);
         recyclerView.setAdapter(adapter);
+        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pullRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        shuaxing();
+                        // 刷新3秒完成
+                        pullRefreshLayout.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
     }
 
+    public void shuaxing(){
+        initData();
+        if(noteList!=null && noteList.size()>0){
+            adapter.notifyDataSetChanged();
+        }
+    }
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     @Override

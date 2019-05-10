@@ -4,128 +4,134 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <com.example.note.view.RecyclerScrollView
-        android:id="@+id/my_scrollView"
+    <com.baoyz.widget.PullRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+        <com.example.note.view.RecyclerScrollView
+            android:id="@+id/my_scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <RelativeLayout
-                android:id="@+id/article_rheader"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:fitsSystemWindows="true">
+                android:layout_height="match_parent">
 
-                <com.example.note.view.CustomViewPager
-                    android:id="@+id/article_header"
+                <RelativeLayout
+                    android:id="@+id/article_rheader"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
-                    android:fitsSystemWindows="true" />
+                    android:fitsSystemWindows="true">
 
-                <com.example.note.view.CircleIndicator
-                    android:id="@+id/article_header_indicator"
-                    android:layout_width="150dp"
-                    android:layout_height="20dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="20dp" />
-            </RelativeLayout>
+                    <com.example.note.view.CustomViewPager
+                        android:id="@+id/article_header"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:fitsSystemWindows="true" />
 
-            <RelativeLayout
-                android:id="@+id/article_dh"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_below="@+id/article_rheader">
+                    <com.example.note.view.CircleIndicator
+                        android:id="@+id/article_header_indicator"
+                        android:layout_width="150dp"
+                        android:layout_height="20dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="20dp" />
+                </RelativeLayout>
 
-                <LinearLayout
-                    android:id="@+id/article_daohang"
+                <RelativeLayout
+                    android:id="@+id/article_dh"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:visibility="visible">
+                    android:layout_height="45dp"
+                    android:layout_below="@+id/article_rheader">
+
+                    <LinearLayout
+                        android:id="@+id/article_daohang"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/article_text1"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="娱乐"
+                            android:textColor="#5299f5"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/article_text2"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="军事"
+                            android:textColor="@color/textcolor"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/article_text3"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="体育"
+                            android:textColor="@color/textcolor"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/article_text4"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="情感"
+                            android:textColor="@color/textcolor"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/article_text5"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="社会"
+                            android:textColor="@color/textcolor"
+                            android:textSize="15sp" />
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/article_text1"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="娱乐"
-                        android:textColor="#5299f5"
-                        android:textSize="15sp" />
+                        android:id="@+id/article_daohang_move"
+                        android:layout_width="30dp"
+                        android:layout_height="3dp"
+                        android:layout_below="@+id/article_daohang"
+                        android:layout_marginLeft="20dp"
+                        android:background="#5299f5" />
+                </RelativeLayout>
 
-                    <TextView
-                        android:id="@+id/article_text2"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="军事"
-                        android:textColor="@color/textcolor"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/article_text3"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="体育"
-                        android:textColor="@color/textcolor"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/article_text4"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="情感"
-                        android:textColor="@color/textcolor"
-                        android:textSize="15sp" />
-
-                    <TextView
-                        android:id="@+id/article_text5"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="社会"
-                        android:textColor="@color/textcolor"
-                        android:textSize="15sp" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/article_daohang_move"
-                    android:layout_width="30dp"
-                    android:layout_height="3dp"
-                    android:layout_below="@+id/article_daohang"
-                    android:layout_marginLeft="20dp"
-                    android:background="#5299f5" />
+                <com.example.note.view.CustomViewPager
+                    android:id="@+id/article_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/article_dh" />
             </RelativeLayout>
-
-            <com.example.note.view.CustomViewPager
-                android:id="@+id/article_content"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/article_dh" />
-        </RelativeLayout>
-    </com.example.note.view.RecyclerScrollView>
-
+        </com.example.note.view.RecyclerScrollView>
+    </com.baoyz.widget.PullRefreshLayout>
     <RelativeLayout
         android:id="@+id/article_dh2"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:visibility="invisible"
+        android:layout_below="@+id/article_rheader"
         android:background="@color/backgroudcolor"
-        android:layout_below="@+id/article_rheader">
+        android:visibility="invisible">
 
         <LinearLayout
             android:id="@+id/article_daohang2"
             android:layout_width="match_parent"
             android:layout_height="40dp">
+
             <TextView
                 android:id="@+id/article_text12"
                 android:layout_width="0dp"
@@ -176,6 +182,7 @@
                 android:textColor="@color/textcolor"
                 android:textSize="15sp" />
         </LinearLayout>
+
         <TextView
             android:id="@+id/article_daohang_move2"
             android:layout_width="30dp"
@@ -184,4 +191,5 @@
             android:layout_marginLeft="20dp"
             android:background="#5299f5" />
     </RelativeLayout>
+
 </FrameLayout>

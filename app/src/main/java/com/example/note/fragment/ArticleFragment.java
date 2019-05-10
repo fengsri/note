@@ -10,8 +10,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.baoyz.widget.PullRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.example.note.GoodActivity;
 import com.example.note.MainActivity;
@@ -78,6 +81,13 @@ public class ArticleFragment extends Fragment implements View.OnClickListener{
     };
     private boolean isLoop = true;
 
+    private PullRefreshLayout pullRefreshLayout;
+    private ArticleItem1Fragment fragment1;
+    private ArticleItem2Fragment fragment2;
+    private ArticleItem3Fragment fragment3;
+    private ArticleItem4Fragment fragment4;
+    private ArticleItem5Fragment fragment5;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +107,7 @@ public class ArticleFragment extends Fragment implements View.OnClickListener{
 
     public void init(View view){
         getscreenwidth();
+        pullRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         relativeLayout1 = view.findViewById(R.id.article_dh);
         relativeLayout2 = view.findViewById(R.id.article_dh2);
         scrollView = view.findViewById(R.id.my_scrollView);
@@ -105,16 +116,26 @@ public class ArticleFragment extends Fragment implements View.OnClickListener{
         contentViewPager = view.findViewById(R.id.article_content);
         articleMove = view.findViewById(R.id.article_daohang_move);
         articleText1 = view.findViewById(R.id.article_text1);
+        articleText1.setOnClickListener(this);
         articleText2 = view.findViewById(R.id.article_text2);
+        articleText2.setOnClickListener(this);
         articleText3 = view.findViewById(R.id.article_text3);
+        articleText3.setOnClickListener(this);
         articleText4 = view.findViewById(R.id.article_text4);
+        articleText4.setOnClickListener(this);
         articleText5 = view.findViewById(R.id.article_text5);
+        articleText5.setOnClickListener(this);
         articleMove2 = view.findViewById(R.id.article_daohang_move2);
         articleText12 = view.findViewById(R.id.article_text12);
+        articleText12.setOnClickListener(this);
         articleText22 = view.findViewById(R.id.article_text22);
+        articleText22.setOnClickListener(this);
         articleText32 = view.findViewById(R.id.article_text32);
+        articleText32.setOnClickListener(this);
         articleText42 = view.findViewById(R.id.article_text42);
+        articleText42.setOnClickListener(this);
         articleText52 = view.findViewById(R.id.article_text52);
+        articleText52.setOnClickListener(this);
         header_indicator = view.findViewById(R.id.article_header_indicator);
         //设置头部轮播图
         ImagerViewPager imagerViewPager=new ImagerViewPager(imageViewListHeader);
@@ -149,6 +170,45 @@ public class ArticleFragment extends Fragment implements View.OnClickListener{
             }
         });
         initAuto();
+        pullRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_WATER_DROP );
+        pullRefreshLayout.setOnRefreshListener(new PullRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pullRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        shuaxing();
+                        // 刷新3秒完成
+                        pullRefreshLayout.setRefreshing(false);
+                    }
+                }, 2000);
+            }
+        });
+    }
+
+
+    public void shuaxing(){
+        if(mCurrent==0){
+            fragment1.initData();
+            fragment1.adapter.notifyDataSetChanged();
+
+        }else if(mCurrent==1){
+            fragment2.initData();
+            fragment2.adapter.notifyDataSetChanged();
+
+        }else if(mCurrent==2){
+            fragment3.initData();
+            fragment3.adapter.notifyDataSetChanged();
+
+        }else if(mCurrent==3){
+            fragment4.initData();
+            fragment4.adapter.notifyDataSetChanged();
+
+        }else if(mCurrent==4){
+            fragment5.initData();
+            fragment5.adapter.notifyDataSetChanged();
+
+        }
     }
 
     public void initData(){
@@ -168,13 +228,17 @@ public class ArticleFragment extends Fragment implements View.OnClickListener{
                 }
             });
         }
-
+        fragment1 = new ArticleItem1Fragment();
+        fragment2 = new ArticleItem2Fragment();
+        fragment3 = new ArticleItem3Fragment();
+        fragment4 = new ArticleItem4Fragment();
+        fragment5 = new ArticleItem5Fragment();
         //主体内容
-        fragmentList.add(new ArticleItem1Fragment());
-        fragmentList.add(new ArticleItem2Fragment());
-        fragmentList.add(new ArticleItem3Fragment());
-        fragmentList.add(new ArticleItem4Fragment());
-        fragmentList.add(new ArticleItem5Fragment());
+        fragmentList.add(fragment1);
+        fragmentList.add(fragment2);
+        fragmentList.add(fragment3);
+        fragmentList.add(fragment4);
+        fragmentList.add(fragment5);
     }
 
 
@@ -187,7 +251,48 @@ public class ArticleFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-
+            case R.id.article_text1:{
+                contentViewPager.setCurrentItem(0);
+                break;
+            }
+            case R.id.article_text2:{
+                contentViewPager.setCurrentItem(1);
+                break;
+            }
+            case R.id.article_text3:{
+                contentViewPager.setCurrentItem(2);
+                break;
+            }
+            case R.id.article_text4:{
+                contentViewPager.setCurrentItem(3);
+                break;
+            }
+            case R.id.article_text5:{
+                contentViewPager.setCurrentItem(4);
+                break;
+            }
+            case R.id.article_text12:{
+                contentViewPager.setCurrentItem(0);
+                break;
+            }
+            case R.id.article_text22:{
+                contentViewPager.setCurrentItem(1);
+                break;
+            }
+            case R.id.article_text32:{
+                contentViewPager.setCurrentItem(2);
+                break;
+            }
+            case R.id.article_text42:{
+                contentViewPager.setCurrentItem(3);
+                break;
+            }
+            case R.id.article_text52:{
+                contentViewPager.setCurrentItem(4);
+                break;
+            }
+            default:
+                break;
         }
     }
 

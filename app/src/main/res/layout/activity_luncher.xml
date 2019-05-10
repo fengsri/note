@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/luncher_bg5">
-
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_margin="30dp"
+        android:text="4"
+        android:id="@+id/time_textview"
+        android:gravity="center"
+        android:textSize="18sp"
+        android:background="@drawable/luncher_time_bg"/>
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:text="跳过"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:id="@+id/tiao_textview"
+        android:background="@drawable/luncher_tiao_bg"
+        android:textColor="@color/textcolor"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="40dp"/>
+</RelativeLayout>
