@@ -42,6 +42,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.example.note.bean.Article;
+import com.example.note.bean.Comment;
 import com.example.note.bean.Diary;
 import com.example.note.bean.Note;
 import com.example.note.bean.User;
@@ -51,6 +52,8 @@ import com.example.note.dao.NoteDao;
 import com.example.note.fragment.ArticleFragment;
 import com.example.note.fragment.DiaryFragment;
 import com.example.note.fragment.NoteFragment;
+import com.example.note.mvp.presenter.MyPresenter;
+import com.example.note.mvp.view.MyView;
 import com.example.note.util.UserUtil;
 import com.tencent.connect.common.Constants;
 import com.tencent.connect.share.QzoneShare;
@@ -72,14 +75,16 @@ import java.util.List;
 
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.datatype.BmobPointer;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.SaveListener;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static cn.bmob.newim.util.IMLogger.init;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener , MyView {
 
     private CoordinatorLayout app_bar_main_view;
 
@@ -101,6 +106,8 @@ public class MainActivity extends AppCompatActivity
     private Tencent mTencent;
     private BaseUiListener mIUiListener = new BaseUiListener();
     private com.example.note.bean.User user;
+
+    private MaterialDialog dialog ;
     /**
      * activity的创建
      * @param savedInstanceState
@@ -114,6 +121,11 @@ public class MainActivity extends AppCompatActivity
 
         user = BmobUser.getCurrentUser(com.example.note.bean.User.class);
         UserUtil.user = user;
+
+        dialog = new MaterialDialog.Builder(this)
+                .title("加载数据")
+                .content("Please Wait......")
+                .progress(true, 0).build();
 
         //刷新本地数据库的数据
         initData();
@@ -132,10 +144,10 @@ public class MainActivity extends AppCompatActivity
      * 初始化加载数据
      */
     private void initData() {
-       /* DiaryDao.deleteDiaryFromLitePal(UserUtil.user.getObjectId());
+        DiaryDao.deleteDiaryFromLitePal(UserUtil.user.getObjectId());
         NoteDao.deleteNoteFromLitePal(UserUtil.user.getObjectId());
         ArticleDao.deleteDiaryFromLitePal();
-        for(int i=1;i<6;i++){
+         /*for(int i=1;i<6;i++){
             DiaryDao.saveBeanDiaryToYun(user.getObjectId(),
                     "2019/05/"+i,"这是日记标题"+i,
                     "这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容",
@@ -203,12 +215,7 @@ public class MainActivity extends AppCompatActivity
                     "pic2",
                     "pic3",
                     "5",MainActivity.this);
-        }*/
-        final MaterialDialog dialog = new MaterialDialog.Builder(this)
-                .title("加载数据")
-                .content("Please Wait......")
-                .progress(true, 0)
-                .show();
+        }
 
         DiaryDao.refreshNewDiary(user.getObjectId());
         NoteDao.refreshNewNote(user.getObjectId());
@@ -219,8 +226,47 @@ public class MainActivity extends AppCompatActivity
                 replace(new DiaryFragment());
                 dialog.dismiss();
             }
-        },2000);
+        },2000);*/
 
+
+
+/*        User user = BmobUser.getCurrentUser(User.class);
+        Article article = new Article();
+        article.setObjectId("ea8c3dd3be");
+        final Comment comment = new Comment();
+        comment.setComment("test");
+        comment.setArticle(article);
+        comment.setUser(user);
+        comment.save(new SaveListener<String>() {
+
+            @Override
+            public void done(String objectId,BmobException e) {
+                if(e==null){
+                   Toast.makeText(MainActivity.this,"评论发表成功",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(MainActivity.this,"评论发表失败",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        });*/
+
+       /* BmobQuery<Comment> query = new BmobQuery<Comment>();
+//用此方式可以构造一个BmobPointer对象。只需要设置objectId就行
+        Article article = new Article();
+        article.setObjectId("ea8c3dd3be");
+        query.addWhereEqualTo("article",new BmobPointer(article));
+//希望同时查询该评论的发布者的信息，以及该帖子的作者的信息，这里用到上面`include`的并列对象查询和内嵌对象的查询
+        query.include("user");
+        query.findObjects(new FindListener<Comment>() {
+
+            @Override
+            public void done(List<Comment> objects,BmobException e) {
+                int a= 0;
+            }
+        });*/
+
+        MyPresenter myPresenter = new MyPresenter(this,this);
+        myPresenter.refush();
    }
 
 
@@ -325,7 +371,7 @@ public class MainActivity extends AppCompatActivity
 
     private void showBottomSheetDialog() {
         View view = LayoutInflater.from(this).inflate(R.layout.bottom_sheet_dialog, null);
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(MainActivity.this);
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(MainActivity.this);
         bottomSheetDialog.setContentView(view);
         //给布局设置透明背景色
         bottomSheetDialog.getDelegate().findViewById(android.support.design.R.id.design_bottom_sheet)
@@ -335,15 +381,17 @@ public class MainActivity extends AppCompatActivity
         view.findViewById(R.id.bottom_image1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this,WriteDiaryActivity.class);
-////                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this,ActivityDiaryWrite.class);
+                startActivity(intent);
+                bottomSheetDialog.dismiss();
             }
         });
         view.findViewById(R.id.bottom_image2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this,WriteDiaryActivity.class);
-////                startActivity(intent);
+                Intent intent = new Intent(MainActivity.this,ActivityNoteWrite.class);
+                startActivity(intent);
+                bottomSheetDialog.dismiss();
             }
         });
     }
@@ -655,6 +703,27 @@ public class MainActivity extends AppCompatActivity
         } else if (tag == 2) {
             fab.setVisibility(View.INVISIBLE);
         }
+    }
+
+
+    @Override
+    public void start() {
+        dialog.show();
+    }
+
+    @Override
+    public void sucessful() {
+        replace(new DiaryFragment());
+    }
+
+    @Override
+    public void cancle() {
+        dialog.dismiss();
+    }
+
+    @Override
+    public void error() {
+        Toast.makeText(MainActivity.this,"数据加载错误",Toast.LENGTH_SHORT).show();
     }
 
 }

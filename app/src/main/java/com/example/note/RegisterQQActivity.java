@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.example.note.bean.User;
 import com.example.note.util.DateUtil;
 
@@ -76,13 +77,11 @@ public class RegisterQQActivity extends AppCompatActivity implements View.OnClic
                     }
                 }
 
-                final ProgressDialog dialog = new ProgressDialog(this);
-                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);// 设置进度条的形式为圆形转动的进度条
-                dialog.setCancelable(false);// 设置是否可以通过点击Back键取消
-                dialog.setCanceledOnTouchOutside(false);// 设置在点击Dialog外是否取消Dialog进度条
-                // 设置提示的title的图标，默认是没有的，如果没有设置title的话只设置Icon是不会显示图标的
-                dialog.setTitle("");
-                dialog.show();
+                final MaterialDialog dialog = new MaterialDialog.Builder(this)
+                        .title("注册中")
+                        .content("Please Wait......")
+                        .progress(true, 0)
+                        .show();
 
                 final User user = new User();
                 user.setUsername(name);

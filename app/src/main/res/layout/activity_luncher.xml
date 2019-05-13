@@ -5,10 +5,10 @@
     android:layout_height="match_parent"
     android:background="@drawable/luncher_bg5">
     <TextView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentRight="true"
-        android:layout_margin="30dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_margin="20dp"
         android:text="4"
         android:id="@+id/time_textview"
         android:gravity="center"
@@ -25,5 +25,5 @@
         android:textColor="@color/textcolor"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_margin="40dp"/>
+        android:layout_margin="30dp"/>
 </RelativeLayout>

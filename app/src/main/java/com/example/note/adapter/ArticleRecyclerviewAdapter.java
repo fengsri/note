@@ -17,6 +17,7 @@ import com.example.note.MainActivity;
 import com.example.note.R;
 import com.example.note.domain.Article;
 import com.example.note.util.ImageUtil;
+import com.example.note.util.StringUtil;
 
 import java.util.List;
 
@@ -59,7 +60,8 @@ public class ArticleRecyclerviewAdapter extends RecyclerView.Adapter<ArticleRecy
                 Intent intent=new Intent(context, ArticleShowActivity.class);
                 intent.putExtra("title",article2.getTitle());
                 intent.putExtra("text",article2.getText());
-                intent.putExtra("auther","文/宋体加");
+                intent.putExtra("auther", StringUtil.getRandString());
+                intent.putExtra("id", article2.getObjectId());
                 context.startActivity(intent);
             }
         });

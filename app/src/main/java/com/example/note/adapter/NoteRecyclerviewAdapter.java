@@ -70,7 +70,6 @@ public class NoteRecyclerviewAdapter extends RecyclerView.Adapter<NoteRecyclervi
             item = itemView.findViewById(R.id.note_item);
             title=itemView.findViewById(R.id.note_item_title);
             date=itemView.findViewById(R.id.note_item_date);
-            smalltext=itemView.findViewById(R.id.note_item_smalltext);
         }
     }
 

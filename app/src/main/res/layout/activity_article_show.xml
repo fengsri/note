@@ -1,66 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.note.view.RecyclerScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <com.example.note.myview.RecyclerScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <RelativeLayout
-            android:id="@+id/article_rheader_show"
             android:layout_width="match_parent"
-            android:layout_height="150dp">
+            android:layout_height="match_parent">
 
-            <com.example.note.view.CustomViewPager
-                android:id="@+id/article_header_show"
+            <RelativeLayout
+                android:id="@+id/article_rheader_show"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:fitsSystemWindows="true" />
+                android:layout_height="150dp">
 
-            <com.example.note.view.CircleIndicator2
-                android:id="@+id/article_header_indicator_show"
-                android:layout_width="150dp"
-                android:layout_height="20dp"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="20dp" />
+                <com.example.note.myview.CustomViewPager
+                    android:id="@+id/article_header_show"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:fitsSystemWindows="true" />
+
+                <com.example.note.myview.CircleIndicator2
+                    android:id="@+id/article_header_indicator_show"
+                    android:layout_width="150dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="20dp" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/article_show_context"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/article_rheader_show"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/article_show_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="这个是文章的标题"
+                    android:textColor="@color/textcolor3"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/article_show_auther"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="文/宋瑞洋"
+                    android:textColor="#757474"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/article_show_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:lineSpacingExtra="7dp"
+                    android:text="奥术大师多撒师大第三\n师大第大萨达撒敖德萨多撒敖德萨多撒萨达按时大大撒按时发达萨法敖德萨多撒萨达撒多撒萨达撒多撒按时大大是的撒"
+                    android:textColor="@color/textcolor"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/article_show_context"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:text="最新评论"
+                    android:textColor="@color/textcolor3"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/article_show_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp" />
+            </LinearLayout>
         </RelativeLayout>
-
-        <LinearLayout
+    </com.example.note.myview.RecyclerScrollView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom">
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/article_rheader_show"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/article_show_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-                android:text="这个是文章的标题"
-                android:textColor="@color/textcolor3"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/article_show_auther"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="文/宋瑞洋"
-                android:textColor="#757474"
-                android:textSize="14sp" />
-
-            <TextView
-                android:id="@+id/article_show_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:lineSpacingExtra="7dp"
-                android:text="奥术大师多撒师大第三\n师大第大萨达撒敖德萨多撒敖德萨多撒萨达按时大大撒按时发达萨法敖德萨多撒萨达撒多撒萨达撒多撒按时大大是的撒"
-                android:textColor="@color/textcolor"
-                android:textSize="14sp" />
-        </LinearLayout>
+            android:layout_height="0.5dp"
+            android:background="#a9a9a9"
+            android:id="@+id/comment_line"
+            android:layout_alignParentBottom="true" />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:scaleType="fitXY"
+            android:id="@+id/comment_write_image"
+            android:src="@drawable/fangxaing3"/>
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:hint="写评论......"
+            android:gravity="center"
+            android:id="@+id/comment_write_content"
+            android:background="@drawable/luncher_tiao_bg"
+            android:layout_toRightOf="@+id/comment_write_image"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/fenxiang"
+            android:layout_marginLeft="30dp"
+            android:id="@+id/comment_write_fengxiang"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/comment_write_content"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@drawable/shoucang"
+            android:layout_marginLeft="30dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/comment_write_fengxiang"/>
     </RelativeLayout>
-</com.example.note.view.RecyclerScrollView>
+</FrameLayout>

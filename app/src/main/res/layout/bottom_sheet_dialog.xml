@@ -8,18 +8,17 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="130dp"
+        android:layout_height="120dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginBottom="35dp">
+        android:layout_marginBottom="25dp">
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="130dp"
             android:layout_weight="1"
             android:id="@+id/write_diary">
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/riji2"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
@@ -27,7 +26,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:text="写日记"
                 android:layout_marginTop="5dp"
                 android:layout_centerHorizontal="true"
@@ -35,13 +34,13 @@
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="0dp"
-            android:layout_height="130dp"
+            android:layout_height="120dp"
             android:layout_weight="1"
             android:layout_marginRight="20dp"
             android:id="@+id/write_note">
             <ImageView
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:src="@drawable/bianqian2"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
@@ -49,7 +48,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:text="写便签"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="5dp"

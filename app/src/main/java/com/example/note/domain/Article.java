@@ -7,6 +7,7 @@ import java.io.Serializable;
 import cn.bmob.v3.BmobObject;
 
 public class Article extends DataSupport {
+    private String objectId;
     private String date;
     private String title;
     private String text;
@@ -19,7 +20,8 @@ public class Article extends DataSupport {
     public Article() {
     }
 
-    public Article(String date, String title, String text, String icon, String pic1, String pic2, String pic3, String type) {
+    public Article(String objectId, String date, String title, String text, String icon, String pic1, String pic2, String pic3, String type) {
+        this.objectId = objectId;
         this.date = date;
         this.title = title;
         this.text = text;
@@ -28,6 +30,14 @@ public class Article extends DataSupport {
         this.pic2 = pic2;
         this.pic3 = pic3;
         this.type = type;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 
     public String getDate() {

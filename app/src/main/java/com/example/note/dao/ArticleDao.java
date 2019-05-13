@@ -25,6 +25,7 @@ public class ArticleDao {
      */
     public static void saveDiaryBeanToLitPal(Article article){
         com.example.note.domain.Article articleS = new com.example.note.domain.Article();
+        articleS.setObjectId(article.getObjectId());
         articleS.setDate(article.getDate());
         articleS.setTitle(article.getTitle());
         articleS.setText(article.getText());

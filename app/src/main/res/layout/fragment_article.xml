@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.example.note.view.RecyclerScrollView
+        <com.example.note.myview.RecyclerScrollView
             android:id="@+id/my_scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -24,13 +24,13 @@
                     android:layout_height="150dp"
                     android:fitsSystemWindows="true">
 
-                    <com.example.note.view.CustomViewPager
+                    <com.example.note.myview.CustomViewPager
                         android:id="@+id/article_header"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
                         android:fitsSystemWindows="true" />
 
-                    <com.example.note.view.CircleIndicator
+                    <com.example.note.myview.CircleIndicator
                         android:id="@+id/article_header_indicator"
                         android:layout_width="150dp"
                         android:layout_height="20dp"
@@ -111,13 +111,13 @@
                         android:background="#5299f5" />
                 </RelativeLayout>
 
-                <com.example.note.view.CustomViewPager
+                <com.example.note.myview.CustomViewPager
                     android:id="@+id/article_content"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/article_dh" />
             </RelativeLayout>
-        </com.example.note.view.RecyclerScrollView>
+        </com.example.note.myview.RecyclerScrollView>
     </com.baoyz.widget.PullRefreshLayout>
     <RelativeLayout
         android:id="@+id/article_dh2"
