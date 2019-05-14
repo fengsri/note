@@ -144,10 +144,10 @@ public class MainActivity extends AppCompatActivity
      * 初始化加载数据
      */
     private void initData() {
-        DiaryDao.deleteDiaryFromLitePal(UserUtil.user.getObjectId());
+        /*DiaryDao.deleteDiaryFromLitePal(UserUtil.user.getObjectId());
         NoteDao.deleteNoteFromLitePal(UserUtil.user.getObjectId());
         ArticleDao.deleteDiaryFromLitePal();
-         /*for(int i=1;i<6;i++){
+         for(int i=1;i<6;i++){
             DiaryDao.saveBeanDiaryToYun(user.getObjectId(),
                     "2019/05/"+i,"这是日记标题"+i,
                     "这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容这是日记内容",
@@ -441,7 +441,8 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this,ActivityUserDiary.class);
             startActivity(intent);
         } else if (id == R.id.nav_manage) {
-
+            Intent intent = new Intent(MainActivity.this,ActivityCollection.class);
+            startActivity(intent);
         } else if (id == R.id.nav_share) {
             shareAplcation();
         } else if (id == R.id.nav_send) {

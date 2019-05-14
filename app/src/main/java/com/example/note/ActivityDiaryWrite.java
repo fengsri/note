@@ -60,6 +60,7 @@ public class ActivityDiaryWrite extends AppCompatActivity implements View.OnClic
     private String date;
     private String pic;
     private String icon;
+    private File outputImage;
 
     public LocationClient mLocationClient = null;
     private MyLocationListener myListener = new MyLocationListener();
@@ -181,7 +182,7 @@ public class ActivityDiaryWrite extends AppCompatActivity implements View.OnClic
                             intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
                             startActivityForResult(intent, 100);
                         }else if(which==1){
-                            File outputImage = new File(getExternalCacheDir(), ImageUtil.getCreateUrl() + ".jpg");
+                            outputImage = new File(getExternalCacheDir(), ImageUtil.getCreateUrl() + ".jpg");
                             try {
                                 if (outputImage.exists()) {
                                     outputImage.delete();
@@ -220,11 +221,12 @@ public class ActivityDiaryWrite extends AppCompatActivity implements View.OnClic
         }
         if (resultCode == RESULT_OK && requestCode == 1) {
             Glide.with(ActivityDiaryWrite.this)
-                    .load(imageUri.getPath())
+                    .load(outputImage.getAbsolutePath())
                     .error(R.drawable.touxiang)
                     .dontAnimate()
                     .into(xaingji);
-            pic = imageUri.getPath();
+           // pic = imageUri.getPath();
+            pic = outputImage.getAbsolutePath();
         }
     }
 

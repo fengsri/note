@@ -57,7 +57,7 @@ public class ArticleItem1Fragment extends Fragment implements View.OnClickListen
     public void init(View view){
         recyclerView  = view.findViewById(R.id.article_item1_recyclerView);
         LinearLayoutManager manager=new LinearLayoutManager(context);
-        adapter = new ArticleRecyclerviewAdapter(articleList);
+        adapter = new ArticleRecyclerviewAdapter(articleList,0);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
     }

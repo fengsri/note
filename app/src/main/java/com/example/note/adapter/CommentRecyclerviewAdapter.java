@@ -49,7 +49,7 @@ public class CommentRecyclerviewAdapter extends RecyclerView.Adapter<CommentRecy
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         final Comment comment = commentList.get(position);
         holder.name.setText(comment.getUser().getUsername());
         holder.text.setText(comment.getComment());
@@ -65,6 +65,7 @@ public class CommentRecyclerviewAdapter extends RecyclerView.Adapter<CommentRecy
             @Override
             public void onClick(View view) {
                 comment.setCount(comment.getCount()+1);
+                holder.count.setText(comment.getCount()+1+"");
                 comment.update(new UpdateListener() {
                     @Override
                     public void done(BmobException e) {

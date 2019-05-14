@@ -61,6 +61,7 @@
         <activity android:name=".ActivityUserDiary"/>
         <activity android:name=".ActivityDiaryWrite"/>
         <activity android:name=".ActivityNoteWrite"/>
+        <activity android:name=".ActivityCollection"/>
         <activity android:name=".ActivitySetHeaderPic" android:theme="@style/ThemeLogin"/>
 
         <activity
