@@ -64,8 +64,8 @@ public class CommentRecyclerviewAdapter extends RecyclerView.Adapter<CommentRecy
         holder.countImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                comment.setCount(comment.getCount()+1);
                 holder.count.setText(comment.getCount()+1+"");
+                comment.setCount(comment.getCount()+1);
                 comment.update(new UpdateListener() {
                     @Override
                     public void done(BmobException e) {
